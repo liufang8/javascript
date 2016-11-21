@@ -1,0 +1,17 @@
+javascript诞生于1995年，当时主要用于处理原来有服务端负责的输入验证。
+在javascript之前必须将表单发送到服务端才能验证用户信息，当时拨号上网的网上很慢，
+所以 Netscape navigator 希望通过 javascript解决这个问题。
+
+后来具备了与浏览器窗口和内容交互的能力，现在成为功能全面的语言。
+
+javascript 是一门既简单又复杂的语言。学会使用只需很短时间，要真正掌握需要几年时间。
+要想全面掌握关键在于弄清楚他的本质，历史和局限。
+
+javascript作者 布兰登.艾奇（brendan Eich）。
+
+该语言同时在浏览器和服务器中使用。
+
+欧洲计算机制造商协会（ECMA， European Computer Manufacturers Association）制定语言标准，
+浏览器厂商根据该标准去实现浏览器
+
+
