@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>javascript异步执行</title>
+	<!-- defer 不会影响页面的构建，它会延迟到整个页面都解析完毕后再运行，但它会立即下载。它只能在src属性中使用 -->
+	<script type="text/javascript" defer src="js/a.js"></script>
+	<!-- <script type="text/javascript" async src="js/runscript.js"></script> -->
+</head>
+<body>
+<p id="p1">这是一个段落</p>
+<script type="text/javascript">
+// console.log("run " + window.performance.now());
+// setTimeout(function(){
+// 	console.log("run " + window.performance.now());
+// }, 100);
+console.log("1");
+
+//该事件在所有dom节点都解析完后执行
+document.addEventListener('DOMContentLoaded', init, false);
+function init() {
+	console.log("4");
+}
+</script>
+<noscript>
+	<p>本页面需要浏览器支持（启用）javascript</p>
+	<!-- 在浏览器不支持，没有启用javascript的时候出发 -->
+</noscript>
+</body>
+</html>

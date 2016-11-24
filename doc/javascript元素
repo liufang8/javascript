@@ -1,0 +1,29 @@
+
+向HTML页面插入Javascript的主要方法是使用<script>元素。
+
+<script>元素的主要属性：
+	async: 表示脚本立刻被下载，	只对外部脚本有效
+	defer: 脚本可以延迟到文档完全被解析和显示之后再执行，只对外部脚本有效，IE7或更早版本支持这个属性
+	src: 包含外部脚本文件
+	type: 脚本语言的类型，默认是text/javascript, 可以没有这个属性
+	charset: 指定代码的字符集，由于大多数浏览器会忽略它的值，很少使用。
+
+javascript两种使用方式：直接在页面嵌入javascript代码和包含外部javascript文件
+
+javascript代码是执行会阻止页面其余内容的加载或显示。
+
+javascript元素里面带有src属性，不要在<script></script>里面写javascript代码，里面的代码会被忽略
+
+javascript可以引用外部域的文件，外部域的文件可能会被修改，所以外部域要值得信任。
+
+javascript 属性只要不存在 defer, async,浏览器就会按照标签的顺序加载
+	defer 不会影响页面的构建，它会立即下载。它会按照先后顺序执行。它会延迟到整个页面都解析完毕后再运行，但会在document的DOMContentLoaded事件之前。
+	它只能在src属性中使用,firfox,chrom ie 都支持。 
+
+	async 可以实现脚本的异步加载，解析，执行，如果脚本之间没有依赖关系，并且没有dom操作。
+
+
+javascript 标签如果放在<head>之间，会阻碍页面的显示（浏览器在遇到<body>标签时才开始显示内容，显示页面之前会呈现一片空白）
+所以要把javascript引用放到body内容后面
+
+<noscript>标签在浏览器不支持或者没有启动的时候出发，显示里面的内容

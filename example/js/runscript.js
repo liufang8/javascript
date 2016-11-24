@@ -1,0 +1,1 @@
+console.log("runjavascript" + window.performance.now());
