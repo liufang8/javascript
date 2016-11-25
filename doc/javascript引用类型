@@ -1,0 +1,128 @@
+	
+	Object类型：
+		
+		创建实例
+			1.var obj = new Object()
+			2.var obj = {'name':'he', age:12};
+
+			通过点访问  obj.name 	
+			通过[]访问  obj["name"]   
+			注 变量 或者不符合规范的命名可以通过[]
+
+	
+
+	Array 可以包含任意类型的值,动态增加值
+
+		创建：两种方式
+
+			1. var colors = new Array() //空数字
+			   var colors = new Array(10) //长度为10
+			 注var colors = new Array(1) //长度为1，不能创建为1数子项的数组 
+			 注var colors = new Array(1,2) //项为1,2 
+			   var colors = new Array("red", "blue"); //两项
+			   var colors = Array("red"); //可以不用new
+
+			2.
+				var colors = [1];  //创建数据项为1   
+				var colors = [1,]  //创建数据项为1
+
+
+		访问： 通过下表访问数组
+			未超出下标： 返回对应的值 ;  超出下标： 返回undefined
+
+		修改：	未超出下标： 修改对应的值 ;  超出下标： 增加相应的长度，
+			var colors = ['red','black','blue'];
+			colors[3] = 'green'; 
+			colors.length  //4
+
+		length: 数组的长度，通过length增加、删除数组
+			var colors = ['red','black','blue'];
+			colors.length = 2; 
+			colors[2]        //undefined
+
+			colors.length = 3;  //增加一项
+			colors[colors.length] = 'green';  //增加一项
+
+
+		检测数组：
+			单页面  colors instanceof Array
+			多框架  Array.isArray()
+
+
+		转换字符串方法：
+			toString()  //通过逗号连接每一项
+			join("")	
+
+		栈方法： push(), pop()
+		队列方法: push(), shift()
+
+		concat 连接数组
+		slice  分割数组
+		splice 增删改（强大）
+
+		位置 : 参数 要查找的数组 和开始的位置，找不到返回-1，找到返回所在的位置
+			indexOf()   //从开头查找
+			lastIndexOf() //从尾部查找
+
+
+		迭代方法：forEach map filter every some
+			每个方法接受两个参数：在每一项上运行的函数和运行该函数的作用域对象（option）
+			传入的方法中接受3个参数：数组项的值， 该项在数组的位置和数组本身
+
+			//是否每个值都满足条件
+			var everyResult = numbers.every(function(item, index,array){
+			   return item > 2;
+			});
+			everyResult          //false
+
+			//是否有一些值满足条件
+			var someResult = numbers.some(function(item, index,array){
+			   return item > 2;
+			});
+			someResult           //true
+
+			//返回满足条件的项
+			var filterResult = numbers.filter(function(item, index,array){
+			     return  item > 2;
+			 });
+			filterResult         //[3, 4, 5, 4, 3]
+
+			//返回处理的每一项
+			var mapResult = numbers.map(function(item, index, array){ 
+			   return item * 2;
+			});
+			mapResult             //[2, 4, 6, 8, 10, 8, 6, 4, 2]
+
+			//对每一项执行某些操作
+			numbers.forEach(function(item, index, array){
+			   //执行某些操作,没有返回值
+			});
+
+
+		缩小方法： reduce, reduceRight
+			都迭代所有的项，然后构建一个最终返回的值。
+			reduce() 从数组的开头遍历到最后
+			reduceRight() 从数组的最后一项开始向前遍历到第一项。
+			每个函数接收两个参数：一个在每一项上调用的函数和作为缩小基础的初始值(option)
+			传入函数接受4个参数：前一个值，当前值，项的索引，数组对象。这个函数返回的值都自动作为第一个参数传给下一项
+			第一次迭代发生在数组的第二项上（第一个参数是第一项，第二个参数是第二项）
+
+			var sum = numbers.reduce(function(pre, cur, index, array){
+			  console.log(pre, cur, index);
+			  return pre + cur;
+			});
+			sum                //15
+
+
+
+
+	Date(日期)
+		Date类型使用自UTC(Coordinated Universal Time, 国际协调时间)1970年1月1日零时开始经历的毫秒数来保存日期。
+
+		创建日期对象:
+			var now = new Date();
+			
+
+
+				
+             

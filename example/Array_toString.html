@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>数组转换为字符串</title>
+</head>
+<body>
+<script type="text/javascript">
+	var chenglong = {
+
+		toString: function() {
+			return '成龙';
+		},
+
+		toLocaleString: function(){
+			return 'Jackie Chan';
+		}
+	};
+
+	var zhoujielun = {
+
+		toString: function(){
+			return '周杰伦';
+		},
+
+		toLocaleString: function(){
+			return 'Jay Chou';	
+		}
+	};
+	var stars = [chenglong, zhoujielun];
+	// alert(stars);  //成龙，周杰伦  调用每个对象的toString()
+	alert(stars.toString()); //成龙，周杰伦  调用每个对象的toString()
+	alert(stars.toLocaleString()); //Jackie Chan Jay Chou
+</script>
+</body>
+</html>
