@@ -241,6 +241,97 @@
 		
 		关系操作符：
 					
+			任何操作数和NaN进行比较都是false
+				var result = 'a' < 3;  //'a' 被转化为NaN
+
+
+		相等操作符：为了保证数据类型的完整性，推荐使用全等
+
+			相等和不相等-先转换再比较  !=
+				如果两个操作数都是对象则比较，是否是同一个对象。如果是true；不是false
+
+			全等和不全等-只比较不转换  !==
+
+
+		条件操作符：  var variable = boolean_expression ? true_value : false_value;
+
+
+		赋值操作符： =
+			把右侧的值赋值给左侧变量
+
+		逗号操作符： 使用逗号操作符，可以在一条语句中执行多个操作。逗号操作符总是返回最后一项
+		
+
+
+	语句：流程控制语句
+
+		if: 
+			if(condition) {statement1} else {statement2}
+			if(condition) {statement1}else if(condition){statement2} else {statement3}
+
+		do-while: 先执行，后检测 循环
+			do {
+				statemenet
+			}while(expression)
+
+
+		while: 先检测，再执行 循环	
+			while(expression) {
+				statement
+			}	
+
+		for: 也是先检测，但具备执行前初始化变量和定义循环后要执行代码的能力
+			for(initialization; expression; post-loop-expression) statement
+
+			javascript 中不存在块级作用于，定义在for中的变量可以在循环体外部访问
+
+			无限循环： for(;;){}
+			
+			break 立即退出循环;continue 终止本次循环，继续运行
+		for-in: 用来枚举对象的属性
+			for(property in expression) {}	//每次返回的次序不可预测	
+
+		with: 将代码的作用域设置到一个对象中
+			with(express) {
+				statement;
+			}		
+			with会降低性能，严格模式下会报错。
+
+		switch: 
+
+			switch(express){
+				case value : 
+					statement
+					break;
+				default:
+					statement	
+			}
+
+			如果多个情况合并要添加注释
+			value 可以是任意类型或者表达式
+
+
+
+	函数： 
+		访问参数：arguments对象，类似数组可以通过下标访问子元素，通过leng获取个数
+		f1(name,age)  name和arguments[0]同步。但在严格模式下不同步。
+
+		没有重载：下面的定义会覆盖上面的定义
+		
+
+
+
+
+				
+
+
+
+					
+
+			
+
+
+			
 
 
 
