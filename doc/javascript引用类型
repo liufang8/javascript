@@ -118,11 +118,164 @@
 
 	Date(日期)
 		Date类型使用自UTC(Coordinated Universal Time, 国际协调时间)1970年1月1日零时开始经历的毫秒数来保存日期。
+		UTC1970是时区为0的时间比如伦敦。
+		
+		var startUTC = new Date(Date.UTC(1970,0)); 
+		startUTC.getTime()  //0
+
+		var startLocal = new Date(1970,0); 
+		startLocal.getTime()  //-28800000 = -28800000/(1000*3600)=-8
 
 		创建日期对象:
-			var now = new Date();
 			
-
-
+			UTC时间：
+				var nowUTC = new Date(Date.UTC(2016,10,26,6,15,10));
+				nowUTC  //Sat Nov 26 2016 14:15:10 GMT+0800 (中国标准时间)
 				
-             
+				var d1 = new Date('2016-11-26T07:14:20') 
+				d1     //Sat Nov 26 2016 15:14:20 GMT+0800 (中国标准时间)
+			
+			
+			当地时间
+				var now = new Date();  //现在时间
+				
+				var d1 = new Date('2014/12/25 12:00:00'); 
+				d1   // Thu Dec 25 2014 12:00:00 GMT+0800 (China Standard Time)
+
+				var d1 = new Date('2014-12-25 12:00:00');  这中格式和上面的主要区别是上面每位数字必须是两位比如00，中间有字母(T或t) 
+				d1   // Thu Dec 25 2014 12:00:00 GMT+0800 (China Standard Time)
+				
+				var d2 = new Date(2016, 10, 26,7,14,20)
+				d2     //Sat Nov 26 2016 07:14:20 GMT+0800 (中国标准时间)
+				
+				var d3 = new Date('November 26, 2016 07: 14: 20')
+				d3     //Sat Nov 26 2016 07:14:20 GMT+0800 (中国标准时间)
+				
+			注意:不使用new 直接Date()没有参数，将返回现在时间字符串，而不是日期对象。
+				
+            
+         方法：
+         	Date.parse() //解析一个表示日期的字符串，并返回从1970-1-1 00:00:00经历的毫秒数 。字符串和创建时一样。
+         	Date.now()	 // 从1970-1-1 00:00:00经历的毫秒数
+         	Date.UTC()   //参数为（2-7），返回从1970-1-1 00:00:00经历的毫秒数
+
+        实例方法：
+         	
+         	getTimezoneOffset()  //返回协调世界时（UTC）相对于当前时区的时间差值， 单位分钟
+         	getFullYear() //根据本地时间返回指定日期对象的年份（四位数字）
+         	getMonth()  //根据本地时间返回指定日期对象的月份（0-11）
+         	getDate()   //根据本地时间返回指定日期对象的月份中第几天（1-31）
+         	getDay()    //根据本地时间返回指定日期对象的星期中第几天（0-6）
+         	getHours()  //根据本地时间返回指定日期对象的小时（0-23）
+         	getMinutes() //根据本地时间返回指定日期对象的分钟（0-59）
+         	getSeconds() //根据本地时间返回指定日期对象的秒数（0-59）
+            getTime()    //返回从1970-1-1 00:00:00 UTC（协调世界时）到该日期经过的毫秒数.
+            valueOf()    //返回从1970-1-1 00:00:00 UTC（协调世界时）到该日期经过的毫秒数.
+
+        日期大小的比较: 先调用valueOf()方法，根据返回值比较，如果没有valueOf方法调用toString()方法根据返回值比较
+        	var d1 = new Date(2010,1);
+        	var d2 = new Date(2011,1);
+        	d1 > d2;  //false
+        	d2 > d1;  //true
+
+        
+
+        正则表达式：
+
+        	var expression = /pattern/flags;
+        	flags: g/i/m
+        	使用正则表达式字面量和调用RegExp一样每次都创建一个实例。
+
+
+        	实例属性：
+        		global: 是否设置了g标志
+        		ignoreCase；是否设置了i标志
+        		multiline: 布尔值，是否设置了m标志。
+        		lastIndex: 整数，表示开始搜索下一个匹配项的位置，从0算起。
+        		source: 正则表达式的字符串表示
+
+        	实例方法：
+        		exec(stringSource)专门为捕获组而设计，返回包含第一个匹配项信息的数组，没有匹配返回null
+	        		返回的数组还包含两个额外的属性：index和input。
+	        		index 匹配项在字符串中的位置。
+	        		input 应用正则表达式的字符串。
+
+	        		var text = 'mom and dad and baby';
+					var pattern = /mom( and dad( and baby)?)?/gi;
+					var matches = pattern.exec(text);
+
+					matches.input   //'mom and dad and baby';
+					matches.index   //0
+					matches[0]	 //mom and dad and baby 整个字符串
+					matches[0]	 //and dad and baby     第一个捕获组
+					matches[0]	 //and baby             第二个捕获组
+
+
+					在没有设置全局标志的情况下，在同一个字符串上多次执行exec()始终返回第一个匹配项信息
+					在有全局标志的情况下，每次执行只返回一个匹配项，并从下一项开始执行。
+					
+
+					var text = 'cat, bat, sat, fat';
+					var pattern = /.at/;
+					var matches = pattern.exec(text);
+					matches.index;                //0
+					pattern.lastIndex;            //0
+
+					matches = pattern.exec(text);
+					matches.index;                //0
+					pattern.lastIndex;            //0
+
+
+
+					var text = 'cat, bat, sat, fat';
+					var pattern = /.at/g;
+					var matches = pattern.exec(text);
+					matches.index;                //0
+					pattern.lastIndex             //3 下一次开始执行的位置
+					matches[0]                    //"cat"
+
+					matches = pattern.exec(text);
+					matches[0]                    //"bat"
+					matches.index                 //5
+					pattern.lastIndex             //8
+ 
+
+				test() 只接受一个字符串参数，在模式和该参数匹配的情况下返回true,否则返回false
+					
+					var text = '000-00-000';
+					var pattern = /\d{3}-\d{2}-\d{3}/;
+					if(pattern.test(text)){
+						console.log("the pattern was matched");						
+					}
+
+				toString()   返回正则表达式的字符串表示
+				valueOf()    返回正则表达式本身
+
+
+				RegExp构造函数属性
+					input             最近一次要匹配的字符串
+					lastMatch         最近一次的匹配项
+					lastParen         最近一次的捕获组
+					leftContext       input字符串中lastMatch之前的文本 
+					rightContext      input字符串中lastMatch之后的文本 
+					multiline         布尔值，是否所有的表达式都使用多行模式
+
+				var text = 'this has been a short summer';
+				var pattern = /(.)hort/g;
+
+				if(pattern.test(text)){
+					console.log(RegExp.input);				//this has been a short summer
+					console.log(RegExp.leftContext);		//this has been a 		
+					console.log(RegExp.rightContext);		// summer		
+					console.log(RegExp.lastMatch);			//short	
+					console.log(RegExp.lastParen);			//s	
+					console.log(RegExp.multiline);			//false	
+				}	 
+	 
+
+
+
+
+
+
+
