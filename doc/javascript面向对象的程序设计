@@ -1,0 +1,19 @@
+对象的定义：无序属性的集合，其属性包括基本值、对象和函数。
+
+对象的创建：
+	
+	1
+		var person = new Object();
+		person.name = 'liu';
+		person.age = 20;
+		person.sayName = function(){
+			alert(this.name);
+		}
+
+	2. var person = {
+			name: 'liu',
+			age: 20,
+			sayName: function(){
+				alert(this.name);
+			}
+		}	

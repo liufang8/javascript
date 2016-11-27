@@ -13,7 +13,7 @@ ECMAScript包括：
 	操作符
 	对象	
 
-它是对该标准规定的各方面内容的语言描述。javascript实现了ECMAScript
+它是对该标准规定的各方面内容的语言描述。浏览器厂商实现ECMAScript
 
 ECMAS-262的第几个版本表示第几版目前是第六感版本。
 
@@ -26,6 +26,5 @@ DOM:
 
 BOM:
 	HTML5把BOM写入规范
-	bom
 
 	

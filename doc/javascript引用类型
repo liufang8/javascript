@@ -275,6 +275,188 @@
 
 
 
+		Function类型
+			函数也是对象，没给对象是Function类型的实例。所以下面两种方式差不多
+				function sum(num1, num2){ return num1 + num2;}  //函数声明
+				var sum = function(num1,num2){return num1 + num2;};  //函数表达式
+
+				不同:
+					sum(10,10);
+					function sum(num1, num2){return num1 + num2}; //20
+					js引擎会把函数声明提到顶部。
+
+					sum(10,10);		                                    //报错不会执行
+					var sum = function(num1,num2){return num1 + num2;}; 
+
+			内部属性 this arguments
+				arguments.callee 指向拥有arguments对象的的函数
+				this指向函数的调用者
+
+				window.color = 'red';
+				var o = {color: 'blue'};
+				function sayColor(){
+					console.log(this.color);
+				}		
+				sayColor();  //red
+				o.sayColor = sayColor;
+				o.sayColor(); //blue
+
+				caller: 保存调用当前函数的函数的引用
+				function outer(){ inner();}
+				function inner(){ console.log(inner.caller);}
+				outer()     //funtion outer(){ inner();}
+
+				length: 函数希望接受命名参数的个数。
+				prototype: 保存所有实例方法的真正所在
+
+				
+				方法绑定：apply,call,bind
+				apply：要绑定的对象，数组参数
+				call: 要绑定的对象，每个参数
+				bind：要绑定的对象，返回已绑定对象的函数。
+
+		基本包装类型：
+			String:
+				var s1 = "some text";		
+				var s2 = s1.substring(2);  //实际上是 var s1 = new String("some text"); var s2 = s1.substring(2); s1 = null;
+
+			使用new调用基本类型的构造函数和直接调用转型的同名函数是不一样的。
+			var value = 25;
+			var number = Number(value);
+			typeof number //number
+
+			var obj = new Number(value);
+			typeof obj //object
+
+			Boolean
+			使用Boolean对象创建对象，在布尔表达式中使用布尔对象回个人造成困惑。
+			var falseObj = new Boolean(false);
+			var result = flaseObj && true
+			result  //true
+
+			var falseValue = false;
+			var result = falseValue && true 
+			result //false
+
+			Number:
+				toFixed(1) //将数字转化为字符串，制定小数位数。
+				toExponential(1) //返回指定小数位数的指数表示形式。
+				toPrecision() //返回指定位所哟位数的指数或者固定位数的表示形式。
+
+			String:
+				访问字符的方法：
+					charAt(i)  //在指定位置的字符
+					charCodeAt(i) //在制定位置的字符编码
+					string[0]  //通过下表访问
+
+				连接字符串  
+					concat :后接多个参数
+					  + 		
+
+				子字符串：
+					slice  第一个参数指定子字符串的开始位置，第二个参数制定结束为止，如果是负数加上数组长度。
+					substr  第一个参数指定开始位置，第二个参数字符串的个数，如果美哟制定结束为止，则以结束位置结束。
+							如果第一个为负数加上数组的长度，如果第二个为负数转化为0
+					substring	 第一个参数指定子字符串的开始位置，第二个参数制定结束为止。
+						    所有负参数都转化为0   
+
+				位置方法： indexOf lastIndexOf()
+					返回指定字符串在源字符串的位置，第二个参数是开始搜索的位置。
+
+				trim(): 清除字符串前后的空格。
+
+				转换大小：
+					toLowerCase()  
+					toUpperCase()
+
+				模式匹配：
+					match(pattern)  //返回一个数组。第一项是与整个匹配模式匹配的字符串，第二项是与正则表达式捕获组匹配的项。	
+					search(pattern) //返回查找的位置，如果没有找到返回-1
+					replace(pattern, 要替换为的字符串或者函数) 如果是函数参数为（模式匹配项，匹配项在字符串中的位置，原始字符串）
+					split(pattern, array.length) //第二个数组的长度，返回一个数组	
+
+					function htmlEscapse(html){
+						var pattern = /[<>"&]/g;
+						return html.replace(pattern, function(match, pos, text){
+							switch(match) {
+								case ">": return '&gt';break;
+								case "<": return '&lt';break;
+								case "&": return '&quot';break;
+								case "\"": return '&amp';break;
+							}
+						});
+					}
+
+					var p = "<p class=\"greeting\">hello world!</p>";
+					var result = htmlEscapse(p); 
+
+					localeCompare: 比较
+					构造函数静态的方法： String.fromCharCode(104,101,108,108,111); //hello
+
+
+					动态格式化字符串的方法： 尽量不要用
+						'hello'.big()         //"<big>hello</big>"
+						'hello'.anchor('baidu')  //"<a name="baidu">hello</a>"
+
+
+			单体内置对象：Global Math
+				Global对象是终极全局变量，任何不是其他对象的属性或者方法都是他的属性和方法。
+					在浏览器中作为window的一部分来实现。
+				
+				URI编码： 使用utf-8对URI中的特殊字符进行编码。非特殊字符（字母，数字，.,  _);s
+					encodeURI: 对整个url进行编码，不会对本身特殊字符（/:？#）进行编码
+					encodeURIComponent: 对局部进行编码，对所有的字符进行编码。
+
+					var uri = 'http://www.wrox.com/illagal value.html#start'; //空格属于特殊字符
+					encodeURI(uri)                //"http://www.wrox.com/illagal%20value.html#start" //编码后%20
+					encodeURIComponent(uri)       //"http%3A%2F%2Fwww.wrox.com%2Fillagal%20value.html%23start"
+
+				eval: 参数要执行的javascript代码，包含的代码被认为是执行环境的一部分。
+					在严格模式下不能使用eval
+
+
+				math 
+					max： 求最大值
+						Math.max.apply(null, [1,3,6,12]);  //避免多余的循环
+
+					舍入方法： ceil, floor, round
+					ceil: 向上舍入最接近的整数
+					floor: 向下舍入最接近的整数
+					round: 四舍五入最接近的整数
+					random: 0-1(不包括0和1)之间的随机数
+					
+					套用下面的公式可以从整数的范围内随机取一个值
+					值 = Math.floor(Math.random() * 可能值的总数 + 第一个可能的值)	
+
+
+					
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

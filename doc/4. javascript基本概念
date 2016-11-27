@@ -31,7 +31,7 @@
 	关键字
 
 		break	do	instanceof	typeof	case	else	new 	var	  in try
-		catch	finally	retrun	void	continue	for 	switch	while
+		catch	finally	return	void	continue	for 	switch	while
 		debugger	function	this	with	default	 if   throw	delete	
 
 		
@@ -41,7 +41,7 @@
 			class enum	extends	super	const	export	import
 
 
-	变量 第一个字符必须是字母，下划线，或者美元符号。 
+	变量  
 		是松散类型的，可以 用来保存任何类型的数据
 
 		定义时要使用var 操作符，不用var 定义变量，变量会成为全局变量
@@ -91,14 +91,16 @@
 		Boolean
 		
 			其它值通过Boolean可以和布尔值进行转换，当需要布尔值的时候会自动转换比如if(expess)
-
-
-			当运算无法返回正确的数值时，就会返回“NaN”值。NaN 值非常特殊，因为它“不是数字” 比如: 1 * 'a'
-			NaN和0 通过Boolean转换都为false
+		
+			转换规则：
+				Boolean          true             false
+				String            非空            空字符串
+				Number           任何非零         0和NaN
+				Object           任何对象         null
+				undefined                         undefined
 
 
 		Number 使用IEEE754表示的格式表示整数和浮点数
-
 
 			整数：十进制、八进制、十六进制
 
@@ -132,20 +134,29 @@
 
 
 			NaN:非数值一个特殊的数值。表示应该返回数值而没有返回数值的情况。
+			当运算无法返回正确的数值时，就会返回“NaN”值。NaN 值非常特殊，因为它“不是数字” 比如: 1 * 'a'
 				
-				使用isNaN() //判断是否是一个非数值，如果参数不是一个数值会尝试转化为数值。 比如： "10"  true
-				通过Number转换  10  1 任何不能转换成数值的值都将返回true
-				如果参数是对象首先调用对象的valueOf()方法，确定返回值是否可以转化为数值，
-				如果不能调用对象的toString()方法，确定返回值是否可以转化为数值。这个是ECMAScript中的内置函数和操作符的一般执行流程。
-
+				使用isNaN() //判断是否是一个非数值，如果参数不是一个数值会尝试通过Number()转化为数值。任何不能转换成数值的值都将返回true 比如： "10"  true
+				
 
 			数值转换 Number()、parseInt()、parseFloat()
 
 				Number() 把任意类型转化为数值，后面两个把字符串转化为数值
-				Number(null)          // 0
-				Number(undefinded)    // NaN
-				Number("012")         //12 所以不要使用八进制
+				Number转换规则：
 
+					如果是Boolean值，true和false分别转化为1，0
+					如果是数值只是简单的返回。
+					如果是null返回0
+					如果是undefined 返回NaN
+					如果是字符串遵循下面的规则：
+						如果只包含数字，则将其转化为十进制，例如'012' 转化为12，零被忽略
+						如果字符串中包含有效的浮点格式，则将其转化为浮点数。例如 '1.2' 转化为1.2
+						如果字符串中包含有效的十六进制，则将其转化为对应的十进制。
+						如果字符串为空，则将其转化为0
+						如果字符串中包含除上述以外的字符，则将其转化为NaN
+					如果是对象首先调用对象的valueOf()方法，确定返回值是否可以转化为数值，如果转化的结果为NaN，则调用对象的toString()方法，然后按照上面的规则进行转换。
+	
+						
 				parseInt('0x12')  //18  
 				parseInt('12', 16)  //18 指定第二个参数，
 
@@ -171,7 +182,8 @@
 				lang = lang + 'Script';
 				第二步创建一个容纳十个字符的新字符串，然后填充'Java' 和'Script',最后销毁原来字符串'Java'和'Script'
 
-
+				charCodeAt(pos)  //返回指定位置字符的unicode十进制码。
+				
 			转换为字符串
 				出来null,undefined 没有toString()方法，其他的变量都有这个方法。
 				String() 可以将任意类型的值转化为字符串，如果值有toStirng()方法则调用，
