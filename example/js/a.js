@@ -2,3 +2,6 @@
 // alert("value" + dom.innerHTML);
 
 // console.log("2");
+
+
+console.error("liufang error");
