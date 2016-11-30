@@ -1,0 +1,110 @@
+BOM的核心对象是window,表示浏览器的一个实例。在浏览器中window有双重对象，它既是javascript访问浏览器的一个接口，又是ECMAScript规定的Global对象。
+
+定义全局变量和window属性还是有差别的：
+	1.使用delete
+		var age = 20;
+		window.color = 'red';
+		delete age             //通过delete删除, 返回false
+		delete window.color    //通过delete删除, 返回 true
+		age                    //20
+		window.color           //undefined
+
+	2.在为声明时使用
+		var newValue = oldValue;          //使用未声明的变量报错。
+		var newValue = window.oldValue	  //使用window.oldValue是属性查找，不报错
+
+
+
+窗口关系和框架
+	如果页面包含框架，每个框架都有自己的window对象，保存在frames集合中。可以通过名称或者下标访问。
+	top指向最外层框架，也就是浏览器窗口。使用它可以在一个框架中访问另一个框架。因为在一个框架中编写的代码window指向那个框架，而非最高层框架。
+	parent对象只想当前对象的直接上层框架。<frame name="n_parent"><frame> name="a"</frame></frame>
+	self始终指向window
+	当没有框架的情况下，window=parent=top
+	通过window.name 属性区别不同页面
+
+	窗口位置：相对于屏幕左上角的位置。 screenTop screenLeft 或者screenX screenY
+	窗口移动： moveTo, moveBy   可能会被浏览器禁止，IE11可用
+	窗口的大小： innerHeight innerwidth 对应文档窗口大小不包括书签栏，  outerHeight outerWidth 整个浏览器窗口的大小 
+				各个浏览器的表现不同。
+				document.documentElement.clientWdith  //客户端视口宽度即页面可视区域的大小
+				document.documentElement.clientHeight //客户端视口高度即页面可视区域的大小
+
+    窗口缩放： resizeTo()  resizeBy()  调整浏览器的大小   可能会被浏览器禁止
+
+    打开窗口 open(url,[_self, _parent,  _top, _self], [新窗口特征]) 
+    	有一段时间广告商在网上使用信息框达到肆无忌惮的程度，经常打扮成系统对话框，引诱用户点击，用户很难分辨真伪。
+    	浏览器在弹出窗口配置方面增加限制。
+
+
+
+
+间歇调用和超时调用
+	setTimeout: 
+		由于javascript是单线程，所以一定时间内只能执行一段代码，为了控制要执行的代码，就要有一个任务队列。
+		这些任务会按照他们添加的顺序执行。当执行到该代码时，javascript会隔一定时间把它添加到任务队列中，
+		如果队列为空则立即执行，如果队列不为空则等前面的代码执行完之后在执行。
+		返回timeoutId
+
+		如果取消尚未执行的超时调用。可以使用clearTimeout(timeoutId);    
+
+	setInterval:
+		每隔一定时间执行。
+		在开发中很少使用间歇调用，原因是后一次可能会在前一次结束之前调用。可以使用超市调用模拟。
+
+
+
+系统对话框：
+	alert("haha");    //
+	confirm("haha");  //
+	prompt("haha");   //					
+    find("网络")      //查找内容中是否包含“网络”，如果不包含返回false,如果包含返回第一个
+    print()           //打印
+
+    	
+location:
+	window.location和document.location都指向同一个对象。
+
+	对下面的地址
+	https://www.lagou.com/jobs/list_%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91?px=default&city=%E5%8E%A6%E9%97%A8#filterBox				
+	protocol  https
+	hostname  www.lagou.com
+	port      ""
+	pathname  /jobs/list_%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91"  
+	search    ?px=default&city=%E5%8E%A6%E9%97%A8
+	hash      #filterBox
+
+
+	查询字符串参数
+	function getQueryStringArgs(){
+		var qs = location.search.length ? location.search.substring(1) : "";
+		var args = {};
+		var items = qs.length > 0 ? qs.split("&") : [];
+		var name, value;
+		for(var i=0; i< items.length; i++) {
+			var item = items[i].split("=");
+			name = decodeURIComponent(item[0]);
+			value = decodeURIComponent(item[1]);
+			if(name){
+				args[name] = (value);
+			}
+		}
+		return args;
+	}
+
+
+	位置操作：	
+		assing(url)  //url="http://www.hao123.com"
+		location = url 或者 location.href = url都是调用assign()
+		修改url后会有历史记录，要想没有记录可以使用replace(url)
+		reload(boolean)  //重新加载该页面可以从缓存中加载，默认为false，若为true强制从服务器中加载
+
+
+	Navigator 浏览器对象
+	screen: 屏幕		
+	history: 历史记录
+		go(-1)  go(1)
+		forward() 
+		back()
+
+		

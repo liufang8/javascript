@@ -1,0 +1,142 @@
+
+递归 
+	f(num){
+	  if(num <= 1){
+	     return 1;  
+	  }else{
+	     return num * f(num -1);
+	  }
+	}
+
+
+闭包：
+	function createFunctions(){
+		var result = [];
+		for(var i=0; i< 10; i++){
+			result[i] = function(){return i;};
+		}
+		return result;
+	}
+
+	createFunctions()[0]()  //10	
+
+	//这种方式可以得到结果但是不是闭包，和result[i] =1 效果一样
+	function createFunctions(){
+		var result = [];
+		for(var i=0; i< 10; i++){
+			result[i] = function(num){
+				return num;
+			}(i);
+		}
+		return result;//
+	}
+
+	//返回函数才是闭包
+	function createFunctions(){
+		var result = [];
+		for(var i=0; i< 10; i++){
+			result[i] = function(num){
+				return function(){ return num;};
+			}(i);
+		}
+		return result;
+	}
+
+
+	var name = "The window";
+	var obj = {
+		name:'My Object',
+		getNameFunc:function(){
+			//这里没有变量this,所以访问不到本地this
+			return function(){
+				return this.name;
+			}		
+		}
+	}
+
+	alert(obj.getNameFunc()());  //The window ，其活动对象到1
+
+	//添加this到作用域中
+	var name = "The window";
+	var obj = {
+		name:'My Object',
+		getNameFunc:function(){
+			var that = this;         //这里有变量this,可以访问
+			return function(){
+				return that.name;
+			}		
+		}
+	}
+
+	alert(obj.getNameFunc()());  //My Object, 不可以给this赋值。
+
+
+	//块级作用域,通过函数创建一个作用域。可以用在全局作用域中减少全局作用域变量
+	(function(){
+
+	})()
+	或者下面的形式
+	(function(){
+
+	}())
+
+	//私有变量
+
+	1.通过构造函数
+		缺点：这样创建的私有方法，每个对象都会创建一份。因为通过原型继承的方法无法访问构造函数内的私有变量。
+	function MyObject(){
+		var privateValue = 1;
+		this.public = function(){
+			return privateValue;
+		}
+	}
+		
+	var obj = new MyObject(); 
+		
+	2.使用私有作用域：静态私有变量
+	(function(){
+	  var name;
+	  Person = function(value){name = value};  //构造函数
+	  Person.prototype.setName= function(value){
+	      name = value;
+	  }
+	  Person.prototype.getName = function(){
+	     return name;
+	  }
+	})()
+
+
+	//单例模式: 是只有一个实例的对象，主要通过字面量的方式创建。
+	var singletonn = {
+		name: 'value',
+		method: function(){
+
+		}
+	}
+
+	//通过私有模块增强
+	var singleton = (function(){
+		var name = 'js';
+		function sayName() {
+			return 'hi,' + name;
+		}
+
+		return {
+			sayName: sayName
+		}
+	}());
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+

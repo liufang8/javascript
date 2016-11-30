@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+ <html>
+  <head>
+   <meta charset="utf-8"/>
+   <title>闭包</title>
+   <style type="text/css">
+     p {background:red;}
+   </style>
+ </head> 
+ <body> 
+  <p id="p0">段落0</p> 
+  <p id="p1">段落1</p> 
+  <p id="p2">段落2</p> 
+  <p id="p3">段落3</p> 
+  <p id="p4">段落4</p> 
+<script type="text/javascript"> 
+ // for( var i=0; i<5; i++ ) { 
+ //   document.getElementById("p"+i).onclick=function() { 
+ //     	alert(num);//访问了父函数的变量i, 闭包 
+ //   };
+ // };
+// 解决
+ // var ps = document.querySelectorAll('p');
+ // for (var i = 0; i < ps.length; i++) {
+ // 	(function(num){
+ // 		ps[i].onclick = function() {alert(num)};
+ // 	})(i);
+ // }
+
+
+//闭包，输出10次10
+ for (var i = 0; i < 10; i++) {
+ 	setTimeout(function(){
+ 		console.log(i);
+ 	},100);
+ }
+
+// 出现setTimeout 会先执行其他的代码，等到时间后再返回执行其中的代码。本次i已经执行10次i=10
+ 
+ // 解决办法：创建闭包
+ for (var i = 0; i < 10; i++) {
+ 	setTimeout(function(num){
+ 		return function(){
+ 			console.log(num); //通过创建闭包保留局部变量
+ 		}
+ 	}(i),100);
+ }
+
+
+</script> 
+</body> 
+</html>

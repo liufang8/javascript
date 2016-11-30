@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test</title>
+</head>
+<body onload="load()">
+<button type="button" onclick="baidu()" tabindex="1">点击</button>
+<script type="text/javascript">
+	function load() {
+		var win = window.open("http://www.baidu.com");
+		if(win ==null){   
+			alert("null");
+		}
+	}
+
+	function baidu() {
+		// window.open("http://www.baidu.com","_slef");  //不会自动执行，只能通过点击或者按键触发
+		var win = window.open("http://www.baidu.com");  //不会自动执行，只能通过点击或者按键触发
+		if(win == null) {  //通过判断win的值来判断是否窗口被拦截
+			alert("haha");
+		}else{
+			alert("haha");
+		}
+	}
+
+</script>
+</body>
+</html>

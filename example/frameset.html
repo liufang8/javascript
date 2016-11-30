@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Frameset Example</title>
+</head>
+<frameset rows="160,*">
+	<frame src="frame.html" name="topFrame">1</frame>
+	<frameset cols="50%, 50%">
+		<frame src="frame.html" name="leftFrame"><a href="http://www.baidu.com" target="leftFrame">a</a></frame>
+		<frame src="frame_sub.html" name="rightFrame"></frame>
+	</frameset>
+</frameset>	
+<script type="text/javascript">
+/*	访问第一个框架： 
+		window.frames[0], window.frames["topFrame"], 
+		top.frames[0], top.frames['topFrame']
+	   	此时window = window.parent=top
+	   	top始终指向最外层框架，也就是浏览器窗口。
+	   	parent属性指向当前框架的直接上层框架。*/
+// window.open("http://www.baidu.com","leftFrame");
+
+</script>
+</html>

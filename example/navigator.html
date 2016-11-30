@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>浏览器对象</title>
+</head>
+<body >
+<script type="text/javascript">
+console.log("appCodeName: " +  navigator.appCodeName); //默认都是Mozilla
+console.log("appName: " +  navigator.appName); //netscape
+console.log("cookieEnabled: " +  navigator.cookieEnabled);
+console.log("javaEnabled: " +  navigator.javaEnabled);
+console.log("language: " +  navigator.language);
+console.log("onLine: " +  navigator.onLine);
+console.log("platform: " +  navigator.platform);  //由于chrome为32为，虽然操作系统为64仍显示为32
+console.log("plugins: " +  navigator.plugins);
+console.log("product: " +  navigator.product); //Gecko 壁虎
+console.log("userAgent: " +  navigator.userAgent); //用户代理
+
+//检测浏览器插件
+function hasPlugin(name) {
+	name = name.toLowerCase();
+	var plugins = navigator.plugins;
+	for (var i = 0; i < plugins.length; i++) {
+		if(plugins[i].name.toLowerCase().indexOf(name) > -1){
+			return true;
+		}
+	}
+	return false
+}
+</script>
+</body>
+</html>
