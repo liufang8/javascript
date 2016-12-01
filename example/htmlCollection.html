@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>HTMLCollection对象</title>
+</head>
+<body>
+<div>div</div>
+<script type="text/javascript">
+var divs = document.getElementsByTagName('div'),
+	i,
+	div;
+for (i = 0; i < divs.length; i++) {
+	div = document.createElement('div');
+	document.body.appendChild(div);
+}
+//这个例子会无限循环
+
+//divs 取得HTMLCollection,这个集合是动态的，每次查询的时候都会更新。所以长度递增。
+// 减少dom操作
+</script>
+</body>
+</html>

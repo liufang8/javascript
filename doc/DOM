@@ -1,0 +1,233 @@
+文档节点：是文档的根节点 document
+文档元素：文档的最外层元素html
+元素通过元素节点表示
+属性通过属性节点表示
+类型通过文档类型节点表示
+
+
+nodeType：node类型
+	DOM1定义了node接口。其他所有节点实现该接口【继承】。
+	每个节点都有一个nodeType属性。表明节点的类型
+
+	【1】 ELEMENT_NODE       可以用数字1表示 
+	【2】 ATTRIBUTE_NODE
+	【3】 TEXT_NODE
+	【4】 CDATA_SECTION_NODE 
+	【5】 ENTITY_REFERENCE_NODE
+	【6】 ENTITY_NODE
+	【7】 PROCESSING_INSTRUCTION_NODE
+	【8】 COMMENT_NODE
+	【9】 DOCUMENT_NODE
+   【10】 DOCUMENT_TYPE_NODE
+   【11】 DOCUMENT_FRAGMENT_NODE
+   【12】 NOTATION_NODE
+
+nodeName nodeValue: 这两个属性和节点的类型相关
+	对于元素节点nodeName是标签名，nodeValue是null
+
+节点关系：
+	childNodes: 保存以保存一个NodeList对象。有数组特性但不是数组。
+	<p>
+		<span>1</span>
+	</p>
+	childNodes:[text,span, text]  //第一个text的内容为“回车符 + 空格”， 总长度为3
+	children: [span]     //只包含元素
+	childElementCount 1; //只包含元素
+
+		$0.childNodes[0]             //第一个元素
+		$0.childNodes.item(0)        //第一个元素
+		$0.childNodes.length         //个数
+
+		Array.prototype.slice($0.childNodes, 0)  //将对象转化为数组		
+
+		//通用方法
+		function convertToArray(nodes) {
+			var array = [];
+			try{
+				array = Array.prototype.slice.call(nodes, 0);
+			}catch(e){
+				for(var i=0, len = nodes.length; i<len; i++) {
+					array.push(nodes[i]);
+				}
+			}
+			return array;
+		}
+
+	parentNode: 指向文档数中的父节点。	
+	parentElement:和parentNode通常一样。
+
+	previousSibling:如果是第一个返回null
+	previousElementSibling:如果是第一个返回null
+	
+	nextSibling:如果是最后一个返回null
+	nextElementSibling：如果是最后一个返回null
+
+	如果是第一个子节点   firstChild = $0.childNodes[0]
+	如果是最后一个子节点 lastChild = $0.childNodes[$0.childNodes.length - 1]
+
+	hasChildNodes() //是否包含一个或者多个子节点
+
+	ownerDocument() //#document  //文档节点
+
+
+
+操作节点：
+	
+	appendChild(): 
+		向NodeList列表末尾中添加一个节点。如果是已有节点则移动到新添加的位置。
+		someNode.appendChild(newNode);
+	append(): 向NodeList列表末尾中添加一个节点，该节点可以使对象或者字符串。
+
+	insertBefore: 在指定节点的前面添加一个节点。 如果指定节点为空追加到最后 someNode.insertBefore(newNode, null);
+	replaceChild(newNode, oldNode); //替换原来的节点
+	removeChild()  //移除节点	
+
+	cloneNode(boolean) //参数为true表示复制本身及其子节点。复制后的节点并没有父节点
+
+	normalize()  //处理文档树种的文本节点(如果空文本节点删除，相邻两个文本节点合并一个)
+	
+
+
+
+Dodument类型
+
+	document对象是HTMLDocument（继承自Document）的一个实例.
+	Docuemnt节点的特征：
+		nodeType: 9
+		nodeName: #document
+		nodeValue: null
+		parentNode: null
+		ownerDocument: null
+
+
+	<!doctype html> //文档类型节点 nodeType 10  nodeName html
+	document.documentElement  //文档元素 html
+	document.documentURI      //URL
+	document.URL              //URL
+	document.docType          //文档类型
+	document.title            //标题
+	document.referrer         //页面来源
+	document.domain           //域 只有域可以设置   如果域为p.main.com ，则只能设置为main.com
+								由于跨域安全限制，来自不同子域的页面无法通过javascript进行通信。
+								可以将域设为相同。就可以访问相互的javascript对象了
+
+
+	元素查找：
+		getElementById();
+		getElementsByTagName();    //返回HTMLCOLLECTION对象，像数组一样，有一个namedItem()方法可以通过name再次查找
+		getElementsByName()      //	
+
+
+		document.anchors          有name属性的a元素
+		document.links            有href属性的a元素
+		document.images           //图片
+		document.forms            //表单							
+
+		document.write("")         //动态向文档写入内容,但是在文档加载结束后再调用会重写整个页面
+
+
+
+Element 类型
+	nodeType  1
+	nodeName  标签名  等于tagName 
+	nodeValue null
+	id
+	className  与class属性对应
+	classList  与className一样，返回数组
+	title
+	自定义属性加上data-前缀
+	属性操作
+		getAttribute()
+		setAttribute()
+		removeAttribute();
+
+		通过getAttribute()访问style属性的时候返回字符串，通过style属性访问返回对象
+		通过getAttribute()访问onclick属性的时候返回字符串，通过style属性访问返回函数对象
+
+    attributes 元素的每个属性组成，在遍历时使用
+
+		通过特征名称访问:
+			element.attributes.getNamedItem("id")
+			element.attributes['id']	
+
+	创建元素：
+		createElement
+
+
+text类型
+	nodeType 3
+	nodeName #text
+	nodeValue 包含的内容，可以用data属性
+
+
+	data
+	appendData(text)
+	insertData(offset, text)
+	deletetData(offset, count)
+	replaceData(offset, count, text)
+	subStringData(offset, count);
+    splitText(offset)  //分割文本
+				
+	创建文本节点：
+		createTextNode(text);
+	 
+	 如果包含相邻的文本节点，可以在父节点上调用normalize() 方法可以合并文本节点	
+
+
+Comment 注释  
+	nodeType 8  
+	nodeName #comment
+	nodeValue 注释内容
+
+	和Text类集成相同的基类，它拥有和text类型相似的方法
+
+	创建注释节点：
+	document.createComment(text)
+
+
+CDATASECTION：
+	只适用于XML,所以在浏览器中会被当作注comment或者element
+	<div><![CDATA[this is some content]]></div>
+
+
+DocumentType: 
+	nodeType 10
+	nodeName 为他的名称html
+
+
+DocumentFragment 
+	nodeType 11
+	nodeName #document-fragment
+
+	保存将要添加到文档的节点。
+
+	创建
+		createDocumentFragment()
+
+
+Attr: 
+	nodeType 2
+	nodeName 属性名称
+	nodeValue 属性值
+
+
+
+DOM操作
+	
+	加载外部脚本
+	function loadScript(url){
+		var script = document.createElement('script');
+		script.type = 'text/javascript';
+		script.src = url;
+		document.body.appendChild(script);
+	}	
+	
+
+
+
+
+
+
+
+
+
