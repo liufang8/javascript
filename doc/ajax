@@ -1,0 +1,218 @@
+ajax是 asynchronous javascript + xml.不需要刷新页面从服务器取得数据。
+
+XMLHttpRequest对象：
+	
+	创建对象：
+		var xhr = new XMLHttpRequest();
+
+	方法：
+		open(method, url, isasyn)
+			method: post, get
+			url: url
+			是否异步发送请求	
+
+		send(data) 发送数据，如果不发送数据data为null
+
+		responseText 返回文本内容
+		responseXML  返回"text/xml"或者"application/xml"
+		status       Http状态
+		statusText   状态说明
+		    304：请求的资源没有被修改，可以直接使用浏览器缓存的版本。
+
+		接收到数据之前可以调用abort() 取消异步请求    
+
+	事件：
+		onreadystatechange     readyState状态改变触发
+
+		loadStart: 接收到第一个字节
+		progress:  接受过程中
+		error:     请求发生错误
+		abort:     调用abort()方法
+		load:      接受完数据
+		loadend:   load,error, abort事件之后触发
+
+		readyState: 
+			0 未初始化，尚未调用open()
+			1 启动，已经调用open(),尚未调用send()
+			2 发送，已经调用send()
+			3 接受，已经接受部分数据
+			4 完成，已经介绍全部数据，可以使用数据
+
+	头部信息:
+
+		设置请求头：要在open()之后，send()之前;一般不要自定义，使用默认
+		xhr.setRequestHeader('MyHead','MyValue');
+		
+		获取响应头
+		var myhead = xhr.getResponseHeader("MyHead");
+		var all = xhr.getAllResponseHeaders(); 		
+
+
+		//如果返回的实际内容是xml，但是Mine类型是text/plain.可以在send之前调用该方法
+		// xhr.overrideMimeType('text/xml'); 
+		
+		//定义超时, open方法之前
+		xhr.timeout = 1000;
+		xhr.ontimeout =  function(){
+			console.log('Request did not return in second');
+		}	
+
+	FormData: 序列化表单。值可以为数字、字符串、文件、表单、Blob	
+	进度条：
+		lengthComputable  长度可以计算
+		loaded   已经加载
+		total:   总大小          
+		xhr.onprogress = function(event){
+			if(event.lengthComputable){
+				divstatus.innerHTML += 'Received:' +event.loaded + " of " + event.total + " bytes.<br>"
+			}
+
+
+	跨域：CORS(cross-origin resource sharing) 跨域资源共享。
+		通过XHR实现的ajax通信有一个主要的限制。同源访问就是只能访问同一域中的资源。
+	w3c定义CORS：使用自定义的http头让浏览器和服务器沟通。让服务器根据头部信息进行响应。
+		浏览器： Origin: http://www.example.com
+        服务器如果接受：就在Access-Control-Allow-Origin头部返回相同的源。如果是公共信息可以返回"*"
+        		Access-Control-Allow-Origin: http://www.example.com
+
+    XMLHttpRequest对象实现了对CORS原生的支持，要在open()用绝对地址。    	
+    有下面的限制:
+    	不能用setRequestHeader()设置自定义头
+    	不能发送和接受cookie
+    	调用getAllResponseHeader()总返回""
+
+    带凭证的请求:这样可以提供cookie等信息
+    	xhr.withCredentials = true
+    	如果服务器接收请求会使用下面的头
+    	Access-Control-Allow-Credentials: true
+   		如果响应没有这个头，浏览器就不会把响应交给javascript
+    
+   图像ping
+   		var img = new Image();
+   		img.onload = img.onerror = function(){
+   			//
+   		}
+   		img.src="url?";
+
+   		缺点：只能发送get请求，如法得到响应文本。
+
+   	地理位置服务： http://freegeoip.net/json/?callback=showOnMap
+
+   	JSONP：是json with padding(填充式json) 
+		   是被包含在调用函数中的json calback({name:'san'})
+   		   是通过创建script元素使用的，因为jsonp是有效的javascript代码，加载到页面后会立即执行。
+
+		function ajax_cross_script() {
+			var script = document.createElement('script');
+			script.src = 'http://freegeoip.net/json/?callback=handleResponse';
+			document.body.appendChild(script);
+		}
+
+		function handleResponse(response) {
+			alert("You are at IP address " + response.ip + ", witch is in " + response.city + ", " + response.region_name);
+		}   		   
+
+		缺点：不容易确定请求是否失败。
+
+
+	
+	comet 服务器想页面推送数据：
+		长轮询： 浏览器向服务器发送数据，然后连接一直打开，知道有数据可以发送。
+			     发送完毕后浏览器关闭连接。随机又发起一个新请求。
+			     一般的做法是在服务器的程序中加入一个死循环，在循环中检测数据的变化。当发现新数据是立即输出给浏览器
+			     浏览器收到数据并断开连接，浏览器再次发起请求进入下一个周期。
+
+			     轮询结束的条件：
+			     	1.有新消息
+			     	2.等一定时间没有新消息，想浏览器发送没有消息的消息。
+			     	3.网络错误，浏览器收到错误消息。
+
+
+		长连接：在页面里嵌入一个隐藏的iframe,将这个隐藏的iframe的src的属性指向一个长连接的请求。
+			    服务器就能源源不断的网客户端输入数据。	 
+			    服务器和每个客户端实例都保持一个持久的连接，这样会消耗服务器大量的资源。所以要特别注意
+			    算法的改进和优化。还可以考虑服务器的负载均衡和集群。
+
+
+		流：他在页面的整个生命周期中只有一个连接。具体来说就是浏览器向服务器发送一个请求，服务器保持连接打开，
+			周期性向浏览器发送数据。
+
+			服务器端：
+				<?php 
+					$i = 0;
+					while(true){
+						echo "Number is $i"; //打印到输出缓存
+						flush();  //然后刷新
+						sleep(10);
+						$i++;
+					} 
+				?>
+
+			客户端：
+				监听readystatechange事件，readyState为3时收到全部数据。
+
+		服务器发送事件：SSE(Server Send Event)
+			创建到服务器的单向连接。
+			创建：
+				var source = new EventSource(url);
+
+				readyState属性：0 正在连接; 1 已经连接; 2 关闭了连接
+
+				方法：
+					close()
+				事件： 
+					open 
+					message
+					error
+
+
+
+
+
+		web Sockets: 在一个单独的持久连接上提供双工和双向通信。在创建web Sockets之后浏览器会向服务器发送http请求。
+				服务器接到请求后，会吧建立的连接转化为web socket协议。 ws:// 或者wss://
+				该协议传递的数据很少。
+
+			创建： 
+				var socket = new WebSocket(url); //绝对url
+
+				readyState属性：
+					WebSocket.OPENING  (0)  正在建立连接
+					WebSocket.OPEN  (1)  已经建立连接
+					WebSocket.CLOSING (2) 正在关闭
+					WebSocket.CLOSE (3) 已经关闭
+
+				没有 readystatechange事件
+
+			发送：
+				socket.send("msg");
+				
+			关闭：
+				socket.close();
+
+			事件：
+				//接受事件
+				socket.onmessage = function(event){
+					var data = event.data;
+				}	
+				socket.onerror = function(){}
+				socket.open = function(){}
+				socket.close = function(){}
+
+
+		SSE和WebSocket区别：
+			websocket需要websocket服务器支持;SSE只需要Http服务器
+			websocket可以双向通信; SSE只从服务器获取数据
+			XHR和SSE结合可以实现双向通信
+
+		安全：每次请求都带上相应算法计算得到的验证码。
+
+
+
+
+
+				
+
+
+
+

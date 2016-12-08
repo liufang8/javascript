@@ -1,0 +1,50 @@
+1. 基本用法
+	<canvas>元素必须有width,height属性
+	如果不支持canvas,则显示其中的文本信息。
+	<canvas width="200" height="200">a draw of something</canvas>
+
+	浏览器是否支持画布
+	var draw = document.querySelector("#id");
+	if(draw.getContext){
+		var canvas = draw.getContext('2d');
+		canvas.fillRect(30,30, 50, 50);
+	}
+
+		//将画布转化为图片
+	var imgurl = draw.toDataURL('image/png');
+	var img = document.createElement('img');
+	img.src = imgurl;
+	document.body.appendChild(img);
+
+	绘制矩形:
+		填充：用指定的样式（颜色、渐变、图片）填充图形。
+			  fillStyle
+			  fillRect()
+		描边：只是在图形的边缘画线。
+		      strokeStyle
+		      strokeRect()
+
+		清除：清除画布上的矩形
+			clearRect() 
+
+		cvs.strokeStyle = '#ff0000';
+		cvs.strokeRect(0,0,40,40);
+		    
+
+	绘制路径：要创建路径首先调用beginPath() 表示开始绘制
+		主要方法：
+			arc(x, y, radius, startAngle, endAngle, counterclockwise[正逆]) counterclockwise为false为顺时针
+			arcTo(x1,y1,x2,y2,radius)以当前端点为起点，(x2,y2)为终点，radius为半径，与(x1,y1)形成夹角相切的弧线
+			bezierCurveTo(x1,y1,x2,y2,x,y) 从上一点开始绘制一条曲线，到(x,y)为止。并且以(x1,y1)(x2,y2)为控制点
+			lineTo(x,y) 从上一点开始画一条直线，到(x,y)为止
+			moveTo(x,y) 移动到(x,y)
+			quadraticCurveTo(cx,cy, x, y)从上一点开始绘制一条曲线，到（x,y）为止，并以(cx,cy)为控制点
+			rect(x, y, width, height) 从(x,y)开始绘制一条矩形，高度和宽度分别为height,width.这个方法绘制的是矩形路径。
+
+		创建完路径后要得到连接到起点的线条可以调用closePath()
+		要想填充调用fill();要想描边调用stroke(),要剪切调用clip() 
+
+
+			
+
+			      

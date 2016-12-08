@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>canvas</title>
+</head>
+<body>
+<canvas width="200" height="200">a draw of something</canvas>
+<script type="text/javascript">
+	
+	var draw = document.querySelector("canvas");
+	if(draw.getContext){
+		var ctx = draw.getContext('2d');
+		// drawClock():
+		// useSave();
+		// drawImages();
+		// useShadow(); //阴影
+		// useGradient(); //渐变
+		// usePattern1();  //使用模式
+		// grayImage();//图片变灰
+		// useGloalAlpha(); //全局透明度
+		useGlobalCompositionOperation()//
+
+
+	}
+
+	function drawClock() {
+		//外圆
+		ctx.arc(100, 100, 90, 0, 2*Math.PI, false); 
+
+		//内圆
+		ctx.moveTo(185, 100);
+		ctx.arc(100, 100, 85, 0, 2*Math.PI, false);
+
+		//变换圆点
+		ctx.translate(100, 100);
+
+		//旋转
+		ctx.rotate(1);  //先旋转
+
+		//分针
+		ctx.moveTo(0, 0);
+		ctx.lineTo(0, -80);
+
+		//时针
+		ctx.moveTo(0, 0);
+		ctx.lineTo(-65, 0);
+
+
+		ctx.stroke();
+	}
+
+/*
+ *save:保存上下文的状态到栈，
+  restore 返回保存的信息	
+ */
+	function useSave() {
+		ctx.fillStyle = '#ff0000';
+		ctx.save();
+
+		ctx.fillStyle = '#00ff00'; //1
+		ctx.translate(100, 100);  //2
+		ctx.save();
+
+		ctx.fillStyle = '#0000ff';
+		ctx.fillRect(0, 0, 100, 200);
+
+		ctx.restore(); //
+		ctx.fillRect(10, 10, 100, 200);
+
+		ctx.restore();
+		ctx.fillRect(0, 0, 100, 200);
+
+	}
+
+	/*
+		drawImage(img, x, y, width, height)  
+		起始坐标x,y
+		width 图片宽度
+		height 图片高度
+	*/
+	function drawImages() {
+		var image = document.createElement('img');
+		image.src = 'http://img2.cache.netease.com/f2e/news/res/channel_logo/ent.png';
+		image.onload = function(){
+			ctx.drawImage(image, 50, 50, 50, 50);
+		}
+	}	
+
+	/**
+      * shadowOffsetX  x轴偏移量（像素）
+		shadowOffsetY  y轴偏移量（像素）
+		shadowColor    阴影颜色
+		shadowBlur     模糊像素数
+	  */	
+	function useShadow() {
+		ctx.shadowOffsetX = 5;
+		ctx.shadowOffsetY = 5;
+		ctx.shadowColor = 'rgba(0, 0,0, 0.5)';
+		ctx.shadowBlur = 4; 
+
+		ctx.fillStyle = '#ff0000';
+		ctx.fillRect(0, 0, 100, 100);
+	}
+
+	function useGradient() {
+		//线性渐变
+
+		//起点(x,y)，终点(x,y)
+		// var gradient = ctx.createLinearGradient(20, 20, 100, 100);
+		// gradient.addColorStop(0, 'white');
+		// gradient.addColorStop(1, 'black');
+
+		// ctx.fillStyle = gradient;
+		// ctx.fillRect(50, 50, 100, 100);
+
+		//径向渐变
+		//起点圆心和半径，终点圆心和半径
+		var ray = ctx.createRadialGradient(55, 55, 1, 55, 55, 30);
+		ray.addColorStop(0, 'white');
+		ray.addColorStop(1, 'black');
+
+		ctx.fillStyle = ray;
+		ctx.fillRect(30, 30, 50, 50);
+	}
+
+	/**
+	  * pttern就是重复图像
+	  *第一个参数img,第二个参数如何重复图像: "repeat","repeat-x","repeat-y","no-repeat"
+	  *要在图像onload之后
+	  */
+	function usePattern1() {
+		var img = document.getElementById("home");
+		img.onload = function(){
+			var pat=ctx.createPattern(img,"repeat");
+			ctx.fillStyle=pat;
+			ctx.fillRect(0,0,150,100);
+		}
+	}
+
+
+	function grayImage() {
+		var image = document.createElement('img');
+		image.src = 'img/ji.jpeg';
+		image.onload = function() {
+			ctx.drawImage(image, 0, 0);
+			var imageData = ctx.getImageData(0, 0, image.width, image.height);
+			var data = imageData.data;
+			for (var i = 0; i < data.length; i+=4) {
+				red = data[i];
+				green = data[i+1];
+				blue = data[i+2];
+				alpha = data[i+3];
+
+				var v = (red + green + blue)/3;
+
+				data[i] = v;
+				data[i+1] = v;
+				data[i+2] = v;
+			}
+			imageData.data = data;
+			ctx.putImageData(imageData, 0, 0);
+		}
+	}
+
+	//全局透明度
+	function useGlobalAlpha() {
+		ctx.fillStyle = '#ff0000';
+		ctx.fillRect(10, 10, 50, 50);
+
+		ctx.globalAlpha = 0.5;
+		ctx.fillStyle = '#0000ff';
+		ctx.fillRect(30, 30, 50, 50);
+	}
+
+	function useGlobalCompositionOperation() {
+		ctx.fillStyle = '#ff0000';
+		ctx.fillRect(10, 10, 50, 50);
+
+		ctx.globalCompositeOperation('destination-over');
+		ctx.fillStyle = 'rgba(0,0,255,1)';
+		ctx.fillRect(30, 30, 50, 50);
+	}
+</script>
+</body>
+</html>

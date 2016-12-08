@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>ajax1</title>
+</head>
+<body>
+<script type="text/javascript">
+	//跨域请求不支持file协议
+	// sync_test();
+	async_test();
+
+	function async_test(){
+		var xhr = new XMLHttpRequest();
+
+		xhr.open('get', 'data.txt', true);
+		xhr.setRequestHeader('MyHead','MyValue');
+		xhr.send(null);
+		xhr.onreadystatechange= function(){
+			if(xhr.readyState == 4) {
+				if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304){
+					var myhead = xhr.getResponseHeader("MyHead");
+					var all = xhr.getAllResponseHeaders(); 
+					console.log(xhr.responseText);
+				}else{
+					console.log("request is unsuccessful");
+				}		
+			}
+		}			
+	}
+
+	function sync_test(){
+		var xhr = new XMLHttpRequest();
+
+		xhr.open('get', 'data.txt', false);
+		xhr.send(null);
+		if((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304){
+			console.log(xhr.responseText);
+		}else{
+			console.log("request is unsuccessful");
+		}
+	}
+
+</script>
+</body>
+</html>	

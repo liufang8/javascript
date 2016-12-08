@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>drag</title>
+</head>
+<body onload="load()">
+<div id="targetbox" style="border:1px solid;width:200px;height:200px"></div>
+<!-- 增加 draggable 属性 -->
+<span draggable="true" id="dragbox">拖动</span>  
+<div id="result"></div>
+<script type="text/javascript">
+function load() {
+	addReleaseEvent();       //释放对象事件
+	addDragEvent();          //拖动对象事件
+}
+
+function addDragEvent() {
+	var drag = document.querySelector('#dragbox');
+	drag.addEventListener('dragstart', function(evt){
+		console.log("drag start");
+		// evt.dataTransfer.effectAllowed = 'move';
+		evt.dataTransfer.effectAllowed = 'copy';
+		// evt.dataTransfer.effectAllowed = 'link';
+		// evt.dataTransfer.effectAllowed = 'none';
+
+		//在拖动对象和释放对象之间传递事件
+		evt.dataTransfer.setData('text', 'world');  
+	});
+
+	drag.addEventListener('drag', function(evt){
+		console.log("drag ing");
+	});	
+
+	drag.addEventListener('dragend', function(evt){
+		console.log("drag end");
+	});
+}
+
+function addReleaseEvent() {
+	var dragdiv = document.querySelector('#targetbox');
+
+	dragdiv.addEventListener('dragenter', function(){
+		console.log("--enter--");
+		// evt.dataTransfer.dropEffect = 'move';
+		// evt.dataTransfer.dropEffect = 'copy';
+		// evt.dataTransfer.dropEffect = 'link';
+		// evt.dataTransfer.dropEffect = 'none';
+	}, false);
+	
+	dragdiv.addEventListener('dragover', function(){
+		event.preventDefault();  //允许释放
+		console.log("--enter--");
+	}, false);
+	
+	dragdiv.addEventListener('dragleave', function(){
+		console.log("--leave--");
+	}, false);
+
+	dragdiv.addEventListener('drop', function(evt){
+		console.log("--drop--");
+
+		//获取传递的数据
+		document.querySelector('#result').innerHTML = evt.dataTransfer.getData('text');
+	}, false);
+}
+</script>
+</body>
+</html>	

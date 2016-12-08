@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>debug</title>
+</head>
+<body>
+<script type="text/javascript">
+// try1();
+// try_return();
+// try_errortype();
+  test_throw();
+function try1() {
+	try{
+		window.a1();
+	}catch(err){
+		alert(err.message);  //window.a1 is not a function(
+		alert(err.name);	 //TypeError	
+	}
+}
+
+function try_return() {
+	var state;
+	try{
+		return state = 2;
+	}catch(err){
+		return state = 3;
+	}finally{
+		console.log("finally");  //总会执行
+		return state = 0;
+	}
+}
+	
+function try_errortype() {
+	try{
+		// var item = new Array(-10);  //RangeError
+		// var obj = x;     //ReferenceError
+		// eval('a ++ b');   //SyntaxError 
+
+		/*此时不会打印1，2,这是代码运行前执行的语法检查。
+		如果发生语法错误则标出语法错误，停止检查。也就是每次只能发现一个错误*/
+		// console.log("1");
+		// var a = b = 1; a ++ b;  //语法错误，javascript停止执行不会抛错误
+		// console.log("2");
+
+		// var a; a.a1();  //TypeError 
+		// var a = new 10;    //TypeError
+	}catch(err){
+		alert(err.name);
+	}
+}
+
+function test_throw() {
+	/*throw 可以抛出任何类型*/	
+	// throw 123;
+	// throw 'hello';
+	// throw true;
+	// throw {'name':'javascript'};
+	// throw new Error("someing bad happened");  //根据消息抛出错误对象
+
+
+	/*自定义错误类型*/
+
+	/*function MyError(message) {
+		this.name = 'myerror';
+		this.message = message ? message : 'my message';
+	}
+
+	MyError.prototype = new Error();
+	throw new MyError('hahaha');*/
+}
+
+	/* 使用throw的例子，编写底层框架的时候，抛出错误尽可能提供详细信息。
+	*/
+function process(values){
+	if(!(values instanceof Array)){ //这样更容易找到错误，判断参数类型
+		throw new Error("process(): argsument must be an array.");
+	}
+
+	values.sort();
+	
+	for (var i = 0; i < values.length; i++) {
+		if(values[i] > 100){
+			return values[i];
+		}
+	}
+
+	return -1;
+}
+
+/*error事件*/
+// window.onerror = function(message, url, line) {
+// 	return false;
+// }
+// throw 'a';
+
+
+var img = new Image();
+img.src = 'http://localhost:8000?sev='+encodeURIComponent('ser') + "&msg=" + encodeURIComponent("msg");    
+</script>
+</body>
+</html>	

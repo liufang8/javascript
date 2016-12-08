@@ -128,6 +128,7 @@
 
 			数值范围：
 				最大值  Number.MIN_VALUE 
+                // window.location.href="/FgTWrQ3aQFvtLeImFZSoWb5RkSaZ";
 				最小值  Number.MAX_VALUE
 
 				如果计算结果超出范围回转换为Infinity(无穷)
@@ -191,8 +192,9 @@
 						如果是undefinded 返回 'undefinded'
 
 				如果变量是数值，toString(base) 可以带有参数,用base进制转换
+				和数组比较会将数组转化为字符串，然后比较
 
-
+			match(regexp) //返回数组如果有全局标志g可以返回多个，如果没有匹配返回null 	
 		Object 是一组数据和功能的集合。
 
 			属性和方法：

@@ -1,0 +1,37 @@
+
+跨文档消息传递	
+	iframe的contentWindow和frames[0]对象一样可以有postMessage()方法
+ 	
+ 	发送消息：
+ 	postMessage(data, domain) 参数：要传递的数据和目标页面所在的域    	
+
+ 	接受消息：一般是window对象
+ 	message(event)
+ 		event.data    接收到的数据
+ 		event.origin  发送消息文档的域 接受数据时要判断来源
+ 		event.source  发送消息文档的window对象的代理。用来回复对话
+
+webworker利用postMessage传输数据。
+
+
+拖放API
+	要拖动的对象事件： 增加 draggable=true 可以拖动
+			默认情况下 文本、图片、连接可以拖动
+		dragstart
+		drag
+		dragend
+
+	拖放区域对象事件：	
+		dragenter
+		dragover   event.preventDefault() //变为可以释放的区域   
+		drop       释放鼠标
+		drapleave
+
+
+	拖动对象和释放区域之间的消息传递： 利用事件的dataTransfer对象
+		event.dataTransfer.setData('name','value')	
+		event.dataTransfer.getData('name')	
+
+		拖放效果：两个属性药搭配使用才行
+		event.dataTransfer.effectAllowed = 'move'	
+		event.dataTransfer.dropEffect = 'move'

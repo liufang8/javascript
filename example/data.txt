@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>ajax2</title>
+</head>
+<body>
+<form>
+	<input type="text" name="name" placeholder="name" value="liu">
+	<input type="text" name="age" placeholder="age" value=23>
+	<input type="submit" id="submit">
+</form>
+<script type="text/javascript">
+	var submit = document.querySelector("#submit");
+	submit.onclick = function(){
+		var data = new FormData(document.forms[0]);
+		var divstatus = document.getElementById('#status');
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4) {
+				alert(xhr.responseText);
+			}
+		}
+		xhr.onprogress = function(event){
+			if(event.lengthComputable){
+				divstatus.innerHTML = 'Received:' +event.position + " of " + event.totalSize + " bytes."
+			}
+		}
+		//定义超时
+		// xhr.timeout = 1000;
+		// xhr.ontimeout =  function(){
+		// 	console.log('Request did not return in second');
+		// }
+
+		xhr.open('post', '../service/php/userinfo.php', true);
+		xhr.send(data);
+		
+	}
+</script>
+</body>
+</html>

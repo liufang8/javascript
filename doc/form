@@ -1,0 +1,131 @@
+表单是HTMLFormElement类型。继承了HTMLElement类型
+
+
+属性：
+	action: 请求url 
+	elements: 表单中所有控件的集合（HTMLCollection）
+	length: 表单中控件的个数
+	method: 请求类型
+	name: 名称
+	target: 用户发送请求和接受响应的窗口。
+	reset()  将所有表单重置为默认值
+	submit() 提交表单
+
+
+获取表单：
+	var form1 = document.forms[0];
+	var form2 = document.forms['formName'];	
+
+
+提交表单：
+	提交按钮类型：
+	<input type="submit" name="submit" value="submit">
+	<button type="submmit" name="btn">提交</button>
+	<input type="image" name="image" src="img.png">
+
+	form.submit()  //提交		
+
+	阻止提交:
+		preventDefault()
+
+防止过度提交：提交后禁止表单提交。
+
+
+所有的表单字段共有属性：
+	disabled
+	form
+	name
+	readOnly
+	tabIndex
+	type: 字段的类型
+	value: 
+	autofocus: 自动获得焦点。
+
+
+所有的表单字段共有方法：
+	blur
+	focus
+	change: input textarea 当他们获得焦点到失去焦点且value发生改变时才能触发。 select: 选项改变后触发。
+	
+
+type: text 
+	<input type="text" name="name" value="this is value" size="10" maxlength="20">  能够显示多少个字符，但输入不能超过20个字符
+	取值通过：value
+	选择文本：select()  通常获取焦点时选择文本
+	select事件：用户选择文本时触发。 
+	var value = this.value.substring(this.selectionStart, this.selectionEnd); //获取选择的文本
+	屏蔽某些字符： event.preventDefault(); 如果包含一些字符，不会有反应。
+textarea:
+	<textarea cols="20" rows="5">this is a news</textarea>  cols,rows类似size
+    取值通过：value
+    选择文本：select()
+    select事件：用户选择文本时触发。
+
+html5约束验证
+	1.required 必填字段
+	2.其他类型type  url, email
+	3.输入模式 pattern
+	
+	根据约束条件检测是否成功checkValidity() 
+	vilidity属性会为什么字段无效
+
+	设置form没有约束验证  noValidate
+	通过元素设置表单没有验证 input.formNoValidate
+
+
+select:
+	HTMLSelectElement的方法：
+		add(newOption, relOption)  向控件中添加新元素 
+		remove（index）
+		multiple： 选择多个
+		options: 所有的options元素
+		selectIndex 选中索引项。
+		size : 可见行数
+
+    value值规则：
+    	如果没有选中项，则value为""
+    	如果有一个选中项，value为选中项的value值
+    	如果有一个选中项，value为选中项的文本
+    	如果有多个选中项，依据上面的规则。
+
+    	
+    HTMLOptionElement属性：
+    	index: 当前选项在集合中中索引
+    	label  标签
+    	selected  是否被选中
+    	text  选项的文本
+    	value 选项的值
+
+    var selectbox = document.forms[0].elements['location']; //根据name属性获取select
+    var text = selectbox.options[0].text;	 //第一项文本
+    var value = selectbox.options[0].value;	 //第一项值
+
+	对只允许选择一项的选择框，可以使用selectedIndex
+	var selectOpt = selectbox.options[selectbox.selectedIndex];
+
+
+	添加一项：
+		1.
+		var loc = document.forms[0].elements["location"];
+		var opt = document.createElement('option');
+		opt.appendChild(document.createTextNode('option text'));
+		opt.setAttribute('value', 'option value');
+		loc.appendChild(opt);
+		
+		2.构造函数	
+		var opt1 = new Option('text1', 'value1');
+		loc.appendChild(opt1);
+
+		3.add			
+		var opt1 = new Option('text1', 'value1');
+		loc.add(opt1, undefined); 
+
+
+richEdit:
+	1.添加contenteditable属性
+	 <div class="editable" contenteditable></div>  
+	 
+	 contenteditable的值： true, false, inherit	
+	 操作富文本使用document.execCommand('command', false, 'args');
+	 
+	

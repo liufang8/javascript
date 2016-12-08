@@ -1,0 +1,83 @@
+video和audio
+
+这两个标签除了方便的嵌入媒体内容外，都提供了实现常用功能的javascript API，允许为媒体创建自定义控件。
+
+属性
+	poster    指定一个图片url,加载内容期间显示。
+	preload   预加载"none" 
+	autoplay  自动播放
+	loop      循环播放
+	constrols 显示控件
+	paused    播放器是否暂停
+	ended     播放文件是否播放完
+	played    已经播放多长时间
+	start     取得或者设置开始播放位置
+	volume    取得或者设置当前音量
+	seeking   播放器是否正在移动到文件的新位置
+	playbackRate 去的或者设置播放速度。
+	defaultPlaybackRate 默认1.0秒
+	currentLoop 已经循环播放次数
+	currentSrc  当前文件url
+	currentTime 已经播放多长时间
+	totalBytes 当前资源总字节数
+	duration 播放总时间
+
+
+事件 
+	abort      下载中断
+	dataunavailable 因为没有数据为不能播放  readyState为0
+	canshowcurrentframe 当前帧已经下载完成，readyState为1
+	canplay     可以播放时 readyState值为2
+	canplaythrough 可以播放，应该不会暂停；readyState值为3
+	emptied     网络连接关闭
+	empty       发生错误阻止媒体下载
+	ended       媒体已经播放到末尾，播放停止
+	error       下载期间网络错误
+	loadeddata  媒体第一针已经加载完成
+	loadstart   下载开始
+	pause        播放暂停
+	play         播放开始
+	playing      正在播放
+	progress     正在下载
+	seeked       搜索结束
+	ratechange   播放速度改变
+	seeking      正在搜索
+	stalled      尝试下载但未收到数据
+	volumechange  音量改变
+	waiting      播放暂停，等待下载更多数据
+
+<video autoplay=true controls=true>
+	<!-- 各个浏览器支持的格式不同，可以指定多个格式 -->
+	<source src="img/movie2.mp4" type="video/ogg">
+	Video play not available
+</video>
+
+判断格式是否支持
+video.canPlayType('video/webm'); "maybe"
+video.canPlayType('video/mp4'); "maybe"
+
+video.canPlayType('video/webm;codecs="vp8, vorbis"'); "probably"
+
+视频支持 Ogg、MPEG4、WebM
+	H.264   video/mp4;codecs="avc1.42e0aE, mp4a.40.2"
+	Theora  video/ogg;codecs="theora"
+	webm    video/webm;codecs="vp8, vorbis"
+
+音频支持  	mpeg(mp3) ogg  wav
+	MP3 audio/mpeg;
+	Vorbis audio/ogg;codecs="vorbis"	
+	WAV audio/wav;codecs="1"
+
+Audio类型:
+	Audio还有一个javascript构造函数Auido,可以不插入到文档中直接播放。 可以在任何时候播放。
+	var audio = new Audio('sound.mp3');
+	audio.addEventListener('canplaythrought', function(){
+		audio.paly();
+	},false);
+
+
+
+
+
+
+

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>ajax2</title>
+</head>
+<body>
+<form>
+	<input type="text" name="name" placeholder="name" value="liu">
+	<input type="text" name="age" placeholder="age" value=23>
+	<input type="submit" id="submit">
+</form>
+<div id="status"></div>
+<script type="text/javascript">
+	// ajax_form();
+	// ajax_cross_url();  
+	// ajax_cross_img(); 
+	ajax_cross_script();   //jsonp
+
+	//使用script
+	function ajax_cross_script() {
+		var script = document.createElement('script');
+		script.src = 'http://freegeoip.net/json/?callback=handleResponse';
+		document.body.appendChild(script);
+	}
+
+	function handleResponse(response) {
+		alert("You are at IP address " + response.ip + ", witch is in " + response.city + ", " + response.region_name);
+	}
+
+	//使用图片
+	function ajax_cross_img() {
+   		var img = new Image();
+   		img.onload = img.onerror = function(event){
+   			// event.type   //'error'
+   			//得不到返回数据
+   		}
+   		img.src="http://freegeoip.net/json/?callback=showOnMap";
+	}
+
+	//使用绝对地址
+	function ajax_cross_url() {
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4) {
+				alert(xhr.responseText);
+			}
+		}
+		xhr.open('get', 'http://freegeoip.net/json/', true);
+		xhr.send(null);
+	}
+
+	function ajax_form() {
+		var submit = document.querySelector("#submit");
+		submit.onclick = function(){
+		var data = new FormData(document.forms[0]);
+		var divstatus = document.getElementById('status');
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4) {
+				alert(xhr.responseText);
+			}
+		}
+
+		//进度条
+		// xhr.onprogress = function(event){
+		// 	if(event.lengthComputable){
+		// 		divstatus.innerHTML += 'Received:' +event.loaded + " of " + event.total + " bytes.<br>"
+		// 	}
+		// }
+		
+		//定义超时
+		// xhr.timeout = 1000;
+		// xhr.ontimeout =  function(){
+		// 	console.log('Request did not return in second');
+		// }
+
+		xhr.open('post', '', true);
+		xhr.send(data);
+		
+	}
+	}
+</script>
+</body>
+</html>	

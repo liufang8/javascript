@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>parent</title>
+</head>
+<body onload="load()">
+<iframe src="http://child.com/javascript/example/crossdomain/postMessage/child.html" id="otherpage"></iframe>
+<script type="text/javascript">
+	function load() {
+		
+		// frames[0] == document.getElementById('otherpage').contentWindow //相同值
+		document.getElementById('otherpage').contentWindow.postMessage('gongfu', 'http://child.com');
+
+		window.onmessage = function(evt) {
+			//接受返回消息
+			if(evt.origin == 'http://child.com'){
+				alert('child: ' + evt.data);
+			}
+		}
+	}
+</script>
+</body>
+</html>

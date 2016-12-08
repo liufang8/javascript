@@ -1,0 +1,91 @@
+querySelector       //接受一css选择器返回匹配的第一个元素，没有返回null
+querySelectorAll    //接受一个css选择器返回所有的匹配元素，没有返回null
+
+返回一个NodeList实例，返回的是带有属性和方法的NodeList,底层实现类似一组数组的快照，而非不断地对文档进行搜索。
+通过document调用方法会在文档范围内查找匹配元素。
+通过element调用方法会在该元素后代范围内查找。
+
+document.body.webkitMatchesSelector('body')    //调用元素和该选择器是否匹配，没有统一实现
+
+
+元素遍历：对于元素之间的空格，浏览器有的会返回文本节点，有的不会。所以增加了五个属性
+
+firstElementChild
+lastElementChild
+previousElementSibling
+nextElementSibling
+childElementCount
+ 
+
+
+HTML5
+
+1.getElementsByClassName()  //通过类名查询，返回对象NodeList
+通过类名可以为元素添加样式，还可以表示元素的语义。所以类名操作很多
+
+2.classList     //对类名操作，返回是新集合类型DomTokenList实例
+	和其他的dom类似有length,[] 和item()方法，有自己的方法：
+	add(value)        将给定的字符串添加到列表中，如果存在则不添加
+	remove(value)     从列表中移除指定的字符串
+	contains(value)   列表中是否包含制定的字符串
+	toggle(value)     如果存在删除，如果不存在添加
+通过className返回字符串，不方便操作。	
+
+3.焦点管理：
+	document.activeElement始终指向当前获取焦点对象
+		最开始获取焦点的对象是body
+		元素获取焦点 element.focus()  
+
+	document.hasFocus() 文档是否获取焦点，body获取焦点除外。检测用户是否和页面交互。
+
+	这两个功能主要用于无障碍应用，无障碍应用的一个主要标志是恰当的焦点管理，确切知道哪个元素获取焦点是个极大的进步
+
+
+
+4.HTMLDocument变化
+	
+	1.readyState 有两个值：
+		loading  文档正在加载
+		complete 文档加载完成
+
+	2.compatMode (兼容模式) 
+		CSS1Compat  标准模式
+		backCompat  混杂模式
+
+	3.head 获取head元素	
+		var head = document.head || document.getElementsByTagName('head')[0]
+
+	4.document.charset  获取或者设置文档字符集
+
+	5.自定义属性
+		html5规定可以为元素添加自定义的属性，但要加上data-前缀，提供语义信息或者和渲染无关的信息。	
+		添加后可以通过元素的dataset访问自定义属性，dataset是DOMStringMap的一个实例。键值映射
+		比如： DOMStringMap {appid: "23", name: "news"}
+
+	6.插入标记： 在插入大量标记时，更简单，速度快。
+		innerHTML:子元素
+		outerHTML：本身和子元素
+		insertAdjacentHTML(): 参数 要插入的位置，要插入的内容。  
+		要插入的位置：
+			beforebegin, afterbegin, beforeend, afterend
+	7.滚动页面
+		scrollIntoView() //让调用元素出现在视口中。
+		参数为true时，或者默认顶部对齐;为false底部对齐。
+
+5.专有拓展
+	强制浏览器以那种模式渲染。
+	<meta http-equiv="X-UA-Compatiable" content="IE=Edge">
+
+6. children  返回元素节点
+
+7. contains  祖先元素是否包含某个节点。
+
+8. 插入文本
+	outerText 
+	innerText  textContent
+
+
+
+
+
+

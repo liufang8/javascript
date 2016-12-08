@@ -1,0 +1,21 @@
+DOM1级主要定义的是HTML和XML的文档底层结构。DOM2和DOM3则在这个结构上引入了更多的交互能力。
+
+DOM子集：
+	DOM2级核心（DOM Level 2 Core） 在核心的基础上添加更多的方法和属性。
+	DOM2级核心（DOM Level 2 View） 为文档定义基于样式的视图
+	DOM2级核心（DOM Level 2 Events）如何使用事件和文档交互
+	DOM2级核心（DOM Level 2 Style） 如何以编程的方式访问和改变CSS样式信息
+	DOM2级核心（DOM Level 2 Traversal and Range）引入了遍历DOM文档和选择其特定的部分的新接口
+	DOM2级核心（DOM Level 2 HTML）在HTML1基础上添加更多的属性、方法和新接口
+
+通过document.implementation.hasFeature('Core', '3.0') 来确定浏览器支持哪些DOM模块。
+
+元素大小：
+	offsetHeight ,offsetWidth （包括边框） 
+	offsetLeft, offsetTop  (距离offsetParent)
+
+	clientHeight ,clientWidth （不包括边框） 
+	clientLeft, clientTop  (距离offsetParent)
+
+
+

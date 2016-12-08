@@ -1,0 +1,59 @@
+事件流顺序： 
+	冒泡：事件由最具体的元素接受，然后逐级向上传播。现在浏览器都支持事件冒泡。
+	捕获：事件有最外层点然后是最内层点接受。
+
+	1. 
+		var mybtn = document.getElementById('mybtn');
+		mybtn.onclick = function(){
+			alert("clicked");
+		}
+		mybtn.onclick = null //删除事件
+	
+	2.
+		var btn = document.getElementById("mybtn");
+		btn.addEventListener('click', function(){
+			alert('Clicked');
+		}, false);	//最后一个参数：默认为false冒泡，参数为true是捕获。	
+		btn.addEventListener('click', function(){
+			alert('Hello');
+		}, false);	
+		可以绑定多个事件，按顺序执行
+
+		添加的事件使用removeEventListener来移除。参数和addEventListener一样。
+		所以不能使用匿名函数。
+
+	在处理函数内部： this始终等于currentTarget,target则指向实际对象。
+	阻止默认行为： preventDefault()
+	阻止方法在dom事件中传播，stopPropagation()
+	页面坐标位置： pageX pageY
+	视口坐标位置：事件是在浏览器视口上发生的。在视口上的位置clientX  clientY
+	屏幕坐标位置 screenX screenY
+	事件发生时检测是否按下某些键：event.altKey，event.shiftKey，event.ctrlKey，event.metaKey
+	鼠标按键： 0【左】 1【中】 2【右】 
+	detail: 给定事件上发生多少次单击
+
+	resize()  浏览器窗口大小变化时，
+	load()  window对象，在页面一切都加载完后出发，
+	DOMContentLoaded() document在形成完整的DOM树之后触发
+	focus() blur()
+
+
+	右键菜单：contextmenu
+	p.addEventListener('contextmenu', function(){
+		event.preventDefault();
+		var menu = document.getElementById("mymenu");
+		menu.style.left=event.clientX + "px";
+		menu.style.top=event.clientY + "px";
+	});
+
+	性能：
+		1.绑定事件过多，可以用事件委托。
+		2.使用removeChild、replaceChild或者innerHTML删除元素时，要把绑定事件解除
+		
+
+
+
+
+
+
+
