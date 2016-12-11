@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>添加dom节点</title>
+</head>
+<body>
+<list id="mylist"></list>
+<script type="text/javascript">
+
+addDom_innerHTML();
+// addDom_fragment();
+/*使用innerHTML添加dom*/
+function addDom_innerHTML() {
+	var list = document.getElementById("mylist"),
+		html = "",
+		i ;
+
+	for (var i = 0; i < 10; i++) {
+		html += "<li> item" + i	+ "</li>"; 	
+	}	
+
+	list.innerHTML = html;
+}
+
+/*使用DocmentFragment添加dom*/
+function addDom_fragment() {
+	var list = document.getElementById("mylist"),
+	fragment = document.createDocumentFragment(),
+	item,
+	i;
+
+	for(i = 0; i < 10; i++){
+		item = document.createElement('li');
+		item.appendChild(document.createTextNode('item' + i));
+		fragment.appendChild(item);
+	}
+
+	list.appendChild(fragment);
+}
+</script>
+
+</body>
+</html>	

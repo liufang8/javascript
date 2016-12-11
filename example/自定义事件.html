@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>观察者模式</title>
+</head>
+<body>
+<script type="text/javascript">
+	var EventTarget = {
+		handlers: {},
+
+		addEvent: function(type, method) {
+			 if(this.handlers[type] == undefined) {
+			 	this.handlers[type] = [method];
+			 }else{
+			 	this.handlers[type].push(method);
+			 }
+		},
+
+		fireEvent: function(type){
+			if(this.handlers[type].length > 0){
+				for (var i = 0, len = this.handlers[type].length; i < len; i++) {
+					var args = Array.prototype.slice.call(arguments,1);
+					this.handlers[type][i].apply(null,args);
+				}
+			}	
+		},
+
+		removeEvent: function(type,method){
+			if(this.handlers[type].length > 0){
+				for (var i = 0, len = this.handlers[type].length; i < len; i++) {
+					if(this.handlers[type][i] === method){
+						this.handlers[type].splice(i,1);
+					}
+				}
+			}
+		}
+	}
+
+	function sayHi(world){
+		alert(world);
+	}
+	function sayHello(world){
+		alert(world + "你好");
+	}
+	EventTarget.addEvent("message", sayHi);
+	EventTarget.addEvent("message", sayHello);
+	// EventTarget.removeEvent("message", sayHello);
+	EventTarget.fireEvent("message","liufang");
+</script>
+</body>
+</html>	

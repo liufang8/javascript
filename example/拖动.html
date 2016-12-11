@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>拖动</title>
+</head>
+<body>
+<div id="color" style="position:absolute;background-color: #ff0; width: 20px;height: 20px;"></div>
+<script type="text/javascript">
+	function moveImage() {
+		var div = document.getElementById("color");
+		div.style.left = event.clientX + "px";
+		div.style.top = event.clientY + "px";
+	}
+	document.addEventListener('mousemove',moveImage,false);
+	document.addEventListener('click',removeImage,false);
+	function removeImage() {
+		document.removeEventListener('mousemove',moveImage);
+	}
+
+</script>
+</body>
+</html>	

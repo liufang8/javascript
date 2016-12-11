@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>File</title>
+</head>
+<body>
+<input type="file" name="myfile">
+<div id="result"></div>
+<div id="filearea" style="width: 200px; height: 200px; background-color: #ff0"></div>
+<script type="text/javascript">
+// slectfiles();	
+// testReadFile();
+// useObjectURL();
+   // dragFile();
+
+function dragFile() {
+	var filearea = document.getElementById("filearea");
+
+	function handleDrag(event) {
+		event.stopPropagation();
+		event.preventDefault();
+		if(event.type == 'drop'){
+			var f = event.dataTransfer.files[0];
+			console.log(f.name, f.type, f.size);
+		}
+	}
+
+	//三个事件必须同时绑定，不然会触发默认操作
+	filearea.ondragenter = handleDrag;
+	filearea.ondragover = handleDrag;
+	filearea.ondrop = handleDrag;
+}
+
+function useObjectURL() {
+	var myfile = document.getElementsByName("myfile")[0];
+
+	myfile.onchange = function() {
+		var url = window.URL.createObjectURL(this.files[0]),
+			result = document.getElementById("result");
+
+		result.innerHTML = "<img src=" + url + ">";		
+	}
+}	
+
+function testReadFile() {
+	var myfile = document.getElementsByName("myfile")[0];
+
+	myfile.addEventListener('change', readFile);
+}
+
+function readFile() {
+	var f = this.files[0],
+		reader = new FileReader(),
+		type = 'default',
+		result = null;
+
+	if(f.type.search(/text/) > -1){
+		reader.readAsText(f.slice(0,400),'gbk');	
+		// reader.readAsText(f.slice(0,400));   //读取部分文件	
+		// reader.readAsBinaryString(f);	
+		type = 'text';
+	} else if(f.type.search('image') > -1){
+		type = 'image';
+		// reader.readAsDataURL(f);	
+		reader.readAsDataURL(f);	
+	}	
+	reader.onload = function() {
+		var div = document.getElementById("result");
+		switch(type){
+			case 'image':
+				result = '<img src = "' + reader.result + '">' 
+				break;
+			case 'text':
+				result = reader.result;
+				break;
+			default:
+				break;		
+		}
+		div.innerHTML = result;
+	}
+	reader.onerror = function(error) {
+		console.log(error.code + ", " + error.message);
+	}
+}
+
+function slectfiles() {
+	var myfile = document.getElementsByName("myfile")[0];
+
+	myfile.addEventListener('change', function(event){
+		var f = this.files[0];
+		console.log(f.name + ", " + f.size + ", " + f.type + "bytes, " + f.lastModifiedDate );
+	});
+}
+
+</script>
+</body>
+</html>	

@@ -1,0 +1,120 @@
+
+requestAnimationFrame
+	。最早动画利用setInterval,关键设置一个合适的延迟时间。如果间隔短，渲染不完动画；间隔长，不平滑。
+	。大多数电脑显示器刷新率60Hz,意思是电脑屏幕每秒刷新60次。所以最平化的刷新间隔为1000/60=17
+	。基于浏览器的游戏使用canvas
+	。requestAnimationFrame 参数要执行的函数，函数中要有判断条件（再次调用该函数或者终止）
+
+
+page visibility 页面是否被隐藏。当隐藏的时候可以停止动画
+	。属性
+		hidden  是否隐藏
+		visibilityState 可视状态
+			hidden,    最小化或者是后台标签页
+			visible    可见
+			prerender  被渲染但用户不可见
+			unloaded   页面被卸载
+
+	。事件 暂无
+
+
+Geolocation 地理位置
+	对象 navigator.geolocation
+
+	方法：
+		getCurrentPosition  参数成功回调函数，可选的回掉函数，可选的参数对象。
+		    -回调成功会受到一个Position对象有两个属性coords和timestamp
+		        coords:有latitude[纬度]，longitude[经度]，accuracy[精度，单位米]
+		    -回调失败会受到一个对象包含：code和message
+		       code表示错误的类型：
+		       		1： 用户拒绝共享
+		       		2： 位置无效
+		       		3:  超时
+
+			-选项对象
+				enableHeightAccuracy  最可能使用最高精度位置，默认为false，如果为true等待时间更长
+				timeout   等待位置的最长时间【毫秒】
+				maxnumAge  上次取的坐标的有效时间【毫秒】
+
+		watchPosition 参数和前面一样，返回一个watchId用来取消监控，然后等待系统发出位置已改变的信号。
+		
+		clearWatch:   参数watchId取消监控		
+
+
+File 文件继承Blob
+
+	。<input type = "file">  增加了files属性，包含多个File对象，每个File对应一个文件
+	   File有下列
+	   	   属性：
+				 name  文件名
+				 size  文件大小[bytes]
+				 type  文件类型
+				 lastModifiedDate 最后修改日期
+
+			方法：
+				slice(start, count) //截取部分文件，开始字节，要读取的字节数量	 
+
+	。FileReader 异步读取系统文件
+		方法：
+			readAsText(file, encoding) 以纯文本形式读取文件，默认编码为utf-8，结果保存在result属性中
+			readAsDataURL(file) 读取文件以数据URI的形式保存在result属性中
+			readAsBinaryString(file) 读取文件以字符串的形式保存在result属性中
+			readAsArrayBuffer(file) 读取文件并将一个包含内容的ArrayBuffer保存在result属性中
+ 
+		事件：
+			progress  正在读取
+				lengthComputable
+				loaded
+				total
+				
+			error     发生错误
+				code  1:未找到文件， 2：安全性错误， 3：读取中断， 4：文件不可读， 4：编码错误
+
+			load	  加载完成
+
+			 	
+	URL: 对象URL也被称为blob URL,指保存File或者Blob数据的URL，放到内存中
+		创建： 
+			window.URL.createObjectURL(flile);	
+
+		举例：
+			<img src = "url" >
+
+		释放：
+			window.URL.revokeObjectURL(url);
+
+	拖动文件：
+		
+		获取拖动文件：event.dataTransfer.files;
+
+
+
+性能【performance】
+	
+	属性：
+
+		navigation 页面导航
+			redirectCount  页面加载前的重定向次数 
+			type  【0】第一次加载 ；【1】重加载；【0】前进或者后退
+
+		timing  加载时间
+			connectStart  开始连接服务器
+			connectEnd    连接服务器结束
+
+
+
+Worker : 这个页面的作用域不能访问window，不能访问dom
+	
+	可以通过worker在引用页面和worker页面通信
+	worker页面内不能访问dom
+	worker页面通过self引用worker对象。
+	worker页面通过postMessage向引用页面发送消息
+	worker页面通过onmessage接受引用页面发送的消息
+	worker通过close()方法关闭
+	worker通过importScripts("a.js","b.js")  引入脚本
+	
+
+
+
+			
+					

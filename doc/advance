@@ -18,22 +18,146 @@
 
 安全作用域构造函数：
 	在使用构造函数的时候，如果没有使用new操作符，会this会绑定其他对象。
-	function Person(name, age) {
-		if(this instanceof Person){
-			this.name = name;
-			this.age = age;
+	对全局函数的意外更改可能会导致一些难以追踪的错误。
+	function Ploygon(sides) {
+		if(this instanceof Ploygon){
+			this.sides = sides;
+			this.getArea = function(){
+				return 0;
+			}
 		} else {
-			return new Person(name, age);
+			return new Ploygon(sides);
+		}
+	}	
+
+	function Rectangle(width, height) {
+		Ploygon.call(this, 2);
+		this.width = width;
+		this.height = height;
+	}
+	
+	Rectangle.prototype = new Ploygon();
+
+	var rect = new Rectangle(5, 10);
+	console.log(rect.sides);
+
+
+
+惰性载入函数：减少执行分支判断
+	第一种方法：函数被调用时再处理函数。在第一次调用时该函数会覆盖为一个合适的方案，
+				这样对原函数的调用不用在执行分支。
+	
+				funtion createC(){
+					if(a > 1){
+						createC = function(){};	
+					}else{
+						createC = function(){}
+					}
+				}
+
+
+	第二种方法：在函数声明时就指定适当的函数。
+
+				var createC = (funtion(){
+					if(a > 1){
+						return function(){};	
+					}else{
+						return function(){}
+					}
+				})()
+
+
+函数绑定：在特定的this环境中绑定参数调用函数。比如：事件处理、setTimeout、setInterval
+	var btn = document.getElementsByTagName('button')[0];
+	var handle = {
+		message: 'Event handle',
+		handleClick: function(event){
+			alert("message: " + this.message);
 		}
 	}
 
+	// btn.addEventListener('click', handle.handleClick, false);  //undefined   this指向dom对象
 
-var a = {name: 'a', sayName: function(age){console.log('hello, ' + this.name + " " + age + " years old" )}};
-var b = {name: 'b'};
-var x = a.syaName.bind(b);
-x
-function(age){console.log('hello, ' + this.name + " " + age + " years old" )}
-x(12)
-var y = a.syaName.bind(b, 23);
-function(age){console.log('hello, ' + this.name + " " + age + " years old" )}
+	// btn.addEventListener('click', handle.handleClick.bind(handle), false); //Event handle
+
+	//通过闭包  //Event handle
+	// btn.addEventListener('click', (function(event){ debugger;return handle.handleClick(event)})(), false);
+	// btn.addEventListener('click', function(event){ debugger;handle.handleClick(event)}, false);
+
+
+
+防止对象篡改：
+	手工设置属性[[configurable]]
+
+
+不可扩展对象： 不能为对象添加属性和方法，可以删除，可以改
+	var person = {name: 'fang'};
+	Object.preventExtensions(person);
+	person.age = 12;
+	person.age       //undefined
+
+	判断对象是否可以扩展：  Object.isExtensible()
+
+
+密封对象：不可以添加新的方法，不能删除，可以修改值	
+	Object.seal(person);
+	Object.isSealed();
+
+
+冻结对象：不可以添加新的方法，不能删除，不能修改值	
+	Object.freeze(person);
+	Object.isFrozen();
+
+
+定时器：setTimeout, setInterval
+	javascript是单线程，有一个要执行代码队列。setTimeout指定一个时间将代码插入到队列中。
+	当进程空闲的时候会立即执行，如果正在执行其他的代码，等其他代码执行完后再执行。
+
+	setInterval: 如果代码执行时间超过间隔，下一个代码会插入到代码队列，而再下一个代码会跳过。
+		即代码队列中只能有个定时器的实例。
+
+	模拟重复定时器：这样每次执行都会创建新的定时器，当前代码执行完之前不会向代码队列添加新的定时器代码。
+		setTimeout(function(){
+			//要执行的代码
+			setTimout(arguments.callee, 50);  //arguments.callee指向当前函数	
+		}, 50);	
+
+
+任务分解：如果一个任务执行时间过长，可以考虑是否可以推迟处理。
+		  如果满足可以不同步处理，可以不按顺序执行，就可以用分解任务，这样javascript可以执行其他的任务，不会阻塞。
+
+		setTimeout(function(){
+			var item = array.shift();
+			process(item);
+			if(array.length > 0){
+				setTimout(arguments.callee, 100);  //arguments.callee指向当前函数	
+			}
+		}, 100);		  		
+
+
+
+函数节流：某些代码没必要不间断连续执行，推迟一段时间后再执行。
+	var processor = {
+		timeoutId: null,
+		
+		processing: function(){
+			//执行
+		},
+
+		process: function(){
+			clearTimeout(this.timeoutId);
+
+			var that = this;  //setTimeout函数中的this总是window所以要保留this
+			this.timeoutId = setTimeout(function(){
+				that.processing();
+			}, 100);	
+		}
+	}
+
+	processor.process(); 
+
 	
+
+
+
+

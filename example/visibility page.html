@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>page visibility API</title>
+</head>
+<body>
+<script type="text/javascript">
+	console.log("document.hidden: " + document.hidden);
+	console.log("visibilityState: " + document.visibilityState);
+
+	//暂时不被支持
+	document.onvisibilitychange= function(evt){
+		var state = document.visibilityState;
+		console.log(state);
+		if(state == 'visible'){
+			console.log("可见");
+		}else{
+			console.log("不可见");
+		}
+	}				
+	
+</script>
+</body>
+</html>	

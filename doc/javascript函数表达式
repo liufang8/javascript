@@ -9,7 +9,8 @@
 	}
 
 
-闭包：
+闭包：闭包就是函数，它可以保留并访问它被声明的作用域的变量。
+
 	function createFunctions(){
 		var result = [];
 		for(var i=0; i< 10; i++){

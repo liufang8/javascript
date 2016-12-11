@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>函数节流</title>
+</head>
+<body>
+<div id="didi" style="width: 200px; height: 200px; background-color: #ff0;">
+	事件没必要不间断持续执行，设置延迟时间。
+</div>
+<script type="text/javascript">
+	window.onresize= function(){
+		throttle(resizediv);
+	}
+	var methodid = null;
+	function resizediv() {
+		console.log("1");
+	}
+
+	//如果代码执行时间长，效果就不好
+	function throttle() {
+		setTimeout(function(){
+			resizediv();
+		}, 100);
+	}
+
+	function throttle() {
+		clearTimeout(methodid);
+		methodid = setTimeout(function(){
+			resizediv();
+		}, 100);
+	}
+
+	// function throttle(method, context) {
+	// 	clearTimeout(method.id);
+	// 	method.id = setTimeout(function(){
+	// 		method.call(context);
+	// 	}, 100);
+	// }
+</script>
+</body>
+</html>	

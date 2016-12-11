@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>绑定函数参数</title>
+</head>
+<body>
+<button type="button">点击</button>
+<script type="text/javascript">
+	var btn = document.getElementsByTagName('button')[0];
+	var handle = {
+		message: 'Event handle',
+		handleClick: function(event){
+			alert("message: " + this.message);
+			// alert("name: " + name + ", message: " + event.type);
+		}
+	}
+
+	// btn.addEventListener('click', handle.handleClick, false);  //this指向dom对象，只有一个参数event
+	// btn.addEventListener('click', handle.handleClick.bind(handle, 'haha'), false); 
+	// haha为第一个参数，event为第二个参数
+
+	//通过闭包
+	// btn.addEventListener('click', (function(event){ debugger;return handle.handleClick(event)})(), false);
+	btn.addEventListener('click', function(event){ debugger;handle.handleClick(event)}, false);
+</script>
+</body>
+</html>	

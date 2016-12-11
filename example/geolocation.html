@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>地理位置</title>
+</head>
+<body>
+<div id="result"></div>
+<script type="text/javascript">
+	navigator.geolocation.getCurrentPosition(function(position){
+		var result = JSON.stringify(position);
+		result.innerText = result;
+		console.log("latitude: + " + position.latitude +", longitude: " + position.longitude);
+	}, function(error){
+		var result = JSON.stringify(error);
+		result.innerText = result;
+		console.log("error code: " + error.code);
+		console.log("error message: " + error.message);
+	});
+</script>
+</body>
+</html>	

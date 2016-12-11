@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>性能-performance</title>
+</head>
+<body>
+<script type="text/javascript">
+	testTiming();
+	function testTiming(){
+		 if (!('performance' in window)            ||
+              !('timing' in window.performance)     ||
+              !('navigation' in window.performance)
+         ) {
+            console.log("You browser does not support performance!,Please use chrome");
+	    } else {
+	    	var timing = performance.timing;
+	    	console.log("重定向耗时: " + (timing.redirectEnd - timing.redirectStart));
+	    	console.log("DNS查询耗时: " + (timing.domainLookupEnd - timing.domainLookupStart));
+	    	console.log("TCP查询耗时: " + (timing.connectEnd - timing.connectStart));
+	    	console.log("request耗时: " + (timing.responseStart - timing.requestStart));
+	    	console.log("reponse耗时: " + (timing.responseEnd - timing.responseStart));
+	    	console.log("   白屏耗时: " + (timing.responseStart - timing.navigationStart));
+	    	console.log("dom解析耗时: " + (timing.domComplete - timing.domInteractive));
+	    	console.log("domReady耗时: " + (timing.domContentLoadedEventEnd - timing.navigationStart));
+	    	console.log("onload耗时: " + (timing.loadEventEnd - timing.navigationStart));
+	    }
+	} 
+</script>
+</body>
+</html>	

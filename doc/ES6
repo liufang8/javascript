@@ -1,0 +1,43 @@
+常量：
+	const MAX_SIZE
+
+块级作用域：let
+	for(let j=0; j < 10; j++){console.log(i)}
+	console.log(j);	   //undefined 
+
+生育参数
+	function sum(num1, num2, ...num3){
+	  var result = num1 + num2;
+	  for(var i=0, len = num3.length; i < len; i++){
+	    result += num3[i];
+	  }
+	 return result;
+	}
+
+默认参数：
+	function sum(num1, num2=5){
+	   return num1 + num2; 
+	}
+
+
+结构赋值： 
+	var [name, value] = ['red', 'blue']  //一次赋值	
+
+
+映射 map:
+	var map = new Map();
+	map.set("name", "liu");
+	map.set("age", 12); //Map {"name" => "liu", "age" => 12}
+	map.has('name')     //true 
+	map.get('name')     //"liu"
+	map.delete('age')   //true
+
+集合 set：
+	var set = new Set();
+	set.add('li');
+	set.add('zhao'); //Set {"li", "zhao"}
+	set.add('li')；  //Set {"li", "zhao"}
+	set.has('zhao')  //true
+	set.delete('li') //true
+
+

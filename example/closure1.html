@@ -7,6 +7,14 @@
 <body>
 <button id="mybtn">点击我</button>
 <script type="text/javascript">
+    /*匿名函数可以访问全局作用域的变量count*/
+	var btn = document.getElementById("mybtn"),
+		count = 0;
+
+	btn.onclick = function(){
+		count += 1;
+		alert(count);
+	}
 </script>
 </body>
 </html>	
